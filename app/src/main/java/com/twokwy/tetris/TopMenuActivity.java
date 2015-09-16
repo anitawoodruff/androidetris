@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.twokwy.tetris.game.GamePlayActivity;
+import com.twokwy.tetris.scores.HighScoresActivity;
 
 
 public class TopMenuActivity extends ActionBarActivity {
@@ -43,6 +44,11 @@ public class TopMenuActivity extends ActionBarActivity {
 
     public void onClickPlayButton(View view) {
         Intent intent = new Intent(this, GamePlayActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickHighScoresButton(View view) {
+        Intent intent = new Intent(this, HighScoresActivity.class);
         startActivity(intent);
     }
 }

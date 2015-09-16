@@ -7,6 +7,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.util.Log;
 
 import com.twokwy.tetris.game.GamePlayActivity;
+import com.twokwy.tetris.scores.HighScoresActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,5 +30,11 @@ public class TopMenuActivityEspressoTest {
     public void playButtonStartsGamePlayActivity() {
         onView(withText("Play")).perform(click());
         intended(hasComponent(GamePlayActivity.class.getName()));
+    }
+
+    @Test
+    public void highScoresButtonStartsHighScoresActivity() {
+        onView(withText("High Scores")).perform(click());
+        intended(hasComponent(HighScoresActivity.class.getName()));
     }
 }
