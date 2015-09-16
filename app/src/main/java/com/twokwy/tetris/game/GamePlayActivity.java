@@ -1,9 +1,28 @@
 package com.twokwy.tetris.game;
 
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+import com.twokwy.tetris.R;
 
 /**
  * Created by anita on 16/09/2015.
  */
 public class GamePlayActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_play);
+    }
+
+    public void onClickPauseButton(View view) {
+        DialogFragment pauseGameDialogFragment = new PauseGameDialogFragment();
+        pauseGameDialogFragment.show(getFragmentManager(), "pause-game-popup");
+    }
+
 }
