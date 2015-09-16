@@ -8,11 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.twokwy.tetris.R;
+import com.twokwy.tetris.scores.HighScoresActivity;
 
 /**
  * Created by anita on 16/09/2015.
  */
-public class GamePlayActivity extends Activity {
+public class GamePlayActivity extends Activity implements PauseGameDialogFragment.OnUserEndedGameListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,4 +26,9 @@ public class GamePlayActivity extends Activity {
         pauseGameDialogFragment.show(getFragmentManager(), "pause-game-popup");
     }
 
+    @Override
+    public void onUserEndedGame() {
+        Intent intent = new Intent(this, HighScoresActivity.class);
+        startActivity(intent);
+    }
 }

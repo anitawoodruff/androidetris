@@ -49,4 +49,11 @@ public class GamePlayActivityEspressoTest {
         onView(withText("End Game")).check(doesNotExist());
     }
 
+    @Test
+    public void startsHighScoresActivityWhenEndGameButtonIsClicked() {
+        onView(withText("||")).perform(click());
+        onView(withText("End Game")).perform(click());
+
+        intended(hasComponent(HighScoresActivity.class.getName()));
+    }
 }
