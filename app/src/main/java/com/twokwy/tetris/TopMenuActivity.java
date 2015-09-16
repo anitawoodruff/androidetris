@@ -1,9 +1,13 @@
 package com.twokwy.tetris;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.twokwy.tetris.game.GamePlayActivity;
 
 
 public class TopMenuActivity extends ActionBarActivity {
@@ -35,5 +39,10 @@ public class TopMenuActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickPlayButton(View view) {
+        Intent intent = new Intent(this, GamePlayActivity.class);
+        startActivity(intent);
     }
 }

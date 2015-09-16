@@ -6,6 +6,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.util.Log;
 
+import com.twokwy.tetris.game.GamePlayActivity;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +28,6 @@ public class TopMenuActivityEspressoTest {
     @Test
     public void playButtonStartsGamePlayActivity() {
         onView(withText("Play")).perform(click());
-        intended(hasComponent("com.twokwy.tetris.GamePlayActivity"));
+        intended(hasComponent(GamePlayActivity.class.getName()));
     }
 }
