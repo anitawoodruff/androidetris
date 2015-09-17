@@ -44,4 +44,15 @@ public class ActivityNavigationEspressoTest {
         onView(withText("Tetris")).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void upReturnsToTopMenuAfterGameEnded() {
+        onView(withText("Play")).perform(click());
+        onView(withText("||")).perform(click());
+        onView(withText("End Game")).perform(click());
+
+        onView(withContentDescription("Navigate up")).perform(click());
+
+        onView(withText("Tetris")).check(matches(isDisplayed()));
+    }
+
 }

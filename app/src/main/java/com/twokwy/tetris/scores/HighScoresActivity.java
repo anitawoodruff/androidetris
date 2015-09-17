@@ -20,10 +20,4 @@ public class HighScoresActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
-
-    public void onClickMainMenuButton(View view) {
-        Intent intent = new Intent(this, TopMenuActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
 }
