@@ -2,7 +2,6 @@ package com.twokwy.tetris.game;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +18,7 @@ public class GamePlayActivity extends Activity implements PauseGameDialogFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
+        getActionBar().hide();
     }
 
     public void onClickPauseButton(View view) {
