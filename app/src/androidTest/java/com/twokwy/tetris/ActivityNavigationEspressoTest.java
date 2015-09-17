@@ -14,12 +14,13 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class ActivityNavigationEspressoTest {
+
+    public static final String TOP_MENU_TITLE = "Tetris";
 
     @Rule
     public IntentsTestRule<TopMenuActivity> mActivityRule = new IntentsTestRule(TopMenuActivity.class);
@@ -33,7 +34,7 @@ public class ActivityNavigationEspressoTest {
 
         pressBack();
 
-        onView(withText("Tetris")).check(matches(isDisplayed()));
+        onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -41,7 +42,7 @@ public class ActivityNavigationEspressoTest {
         onView(withText("High Scores")).perform(click());
         onView(withContentDescription("Navigate up")).perform(click());
 
-        onView(withText("Tetris")).check(matches(isDisplayed()));
+        onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -52,7 +53,7 @@ public class ActivityNavigationEspressoTest {
 
         onView(withContentDescription("Navigate up")).perform(click());
 
-        onView(withText("Tetris")).check(matches(isDisplayed()));
+        onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
     }
 
 }
