@@ -21,7 +21,16 @@ public class GamePlayActivity extends Activity implements PauseGameDialogFragmen
         getActionBar().hide();
     }
 
+    @Override
+    public void onBackPressed() {
+        showPauseDialog();
+    }
+
     public void onClickPauseButton(View view) {
+        showPauseDialog();
+    }
+
+    private void showPauseDialog() {
         DialogFragment pauseGameDialogFragment = new PauseGameDialogFragment();
         pauseGameDialogFragment.show(getFragmentManager(), "pause-game-popup");
     }

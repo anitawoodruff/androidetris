@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -27,7 +28,7 @@ public class GamePlayActivityEspressoTest {
     public IntentsTestRule<GamePlayActivity> mActivityRule = new IntentsTestRule(GamePlayActivity.class);
 
     @Test
-    public void showsPauseGameDialogOnlyWhenUserClicksPause() {
+    public void showsPauseGameDialogWhenUserClicksPause() {
         // Initially should not be paused
         onView(withText("Game Paused")).check(doesNotExist());
 
@@ -44,6 +45,31 @@ public class GamePlayActivityEspressoTest {
 
         // game no longer paused
         onView(withText("Game Paused")).check(doesNotExist());
+    }
+
+    @Test
+    public void showsPauseGameDialogWhenUserPressesBack() {
+        // Initially should not be paused
+        onView(withText("Game Paused")).check(doesNotExist());
+
+        // user triggers pause with Back
+        pressBack();
+
+        // Dialog should now be visible
+        onView(withText("Game Paused")).check(matches(isDisplayed()));
+
+        // user dismisses dialog
+        pressBack();
+
+        // game should no longer be paused
+        onView(withText("Game Paused")).check(doesNotExist());
+
+        // user triggers pause with Back
+        pressBack();
+
+        // Dialog should now be visible
+        onView(withText("Game Paused")).check(matches(isDisplayed()));
+
     }
 
     @Test
