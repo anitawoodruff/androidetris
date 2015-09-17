@@ -16,8 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".game.GamePlayActivity" android:label="Tetris Game"></activity>
-        <activity android:name=".scores.HighScoresActivity" android:label="Tetris Scores"></activity>
+        <activity
+            android:name=".game.GamePlayActivity"
+            android:label="Tetris Game"></activity>
+        <activity
+            android:name=".scores.HighScoresActivity"
+            android:label="Tetris High Scores"></activity>
     </application>
 
 </manifest>

@@ -29,6 +29,8 @@ public class GamePlayActivity extends Activity implements PauseGameDialogFragmen
     @Override
     public void onUserEndedGame() {
         Intent intent = new Intent(this, HighScoresActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 }
