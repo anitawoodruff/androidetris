@@ -20,12 +20,8 @@ public class GameView extends View {
     private int mCurrentLevel = 0;
 
     public void onDownControl() {
-        mTileGrid.occupyTileAtPosition(mCurrentLevel++, 0, TileColor.BLUE);
+        mTileGrid.occupyTileAtPosition(mCurrentLevel++, 0, Tile.Color.BLUE);
         invalidate();
-    }
-
-    enum TileColor {
-        RED, GREEN, BLUE, YELLOW
     }
 
     public GameView(Context context, AttributeSet attrs) {
@@ -45,7 +41,7 @@ public class GameView extends View {
         a.recycle();
     }
 
-    private ShapeDrawable createTileDrawable(Optional<TileColor> tileColor, Rect bounds) {
+    private ShapeDrawable createTileDrawable(Optional<Tile.Color> tileColor, Rect bounds) {
         final ShapeDrawable tileDrawable = new ShapeDrawable(new RectShape());
         final int colorResId = tileColor.isPresent() ? translateToResId(tileColor.get())
                 : R.color.grey;
@@ -54,7 +50,7 @@ public class GameView extends View {
         return tileDrawable;
     }
 
-    private int translateToResId(TileColor tileColor) {
+    private int translateToResId(Tile.Color tileColor) {
         switch(tileColor) {
             case RED:
                 return R.color.red;
@@ -70,8 +66,8 @@ public class GameView extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mTileGrid.updateGridSizeAndClearTiles(w, h);
-        mTileGrid.occupyTileAtPosition(0, 0, TileColor.RED);
+        mTileGrid.updateGridSize(w, h);
+        mTileGrid.occupyTileAtPosition(0, 0, Tile.Color.RED);
     }
 
     @Override

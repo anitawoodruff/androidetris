@@ -7,9 +7,16 @@ import com.google.common.base.Optional;
  */
 class Tile {
 
-    private Optional<GameView.TileColor> mColor = Optional.absent();
+    enum Color {
+        RED, GREEN, BLUE, YELLOW
+    }
 
-    void occupy(GameView.TileColor color) {
+    private Optional<Color> mColor = Optional.absent();
+
+    /**
+     * Occupy this tile with the given color.
+     */
+    void occupy(Color color) {
         mColor = Optional.of(color);
     }
 
@@ -21,7 +28,7 @@ class Tile {
         mColor = Optional.absent();
     }
 
-    public Optional<GameView.TileColor> getColor() {
+    public Optional<Color> getColor() {
         return mColor;
     }
 }

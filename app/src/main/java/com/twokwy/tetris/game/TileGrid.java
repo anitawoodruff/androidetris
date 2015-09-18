@@ -20,7 +20,14 @@ public class TileGrid {
         mTileSize = tileSize;
     }
 
-    public void updateGridSizeAndClearTiles(int w, int h) {
+    /**
+     * Updates the number of tiles per row and total rows to fit into the given dimensions,
+     * determined by the tile size set on construction. If this results in the grid size changing
+     * how many tiles fit per row or column, all the tiles will be reset.
+     * @param w width (px) available for the tile grid
+     * @param h height (px) available for the tile grid
+     */
+    public void updateGridSize(int w, int h) {
         int newTilesPerRow = (int) Math.floor(w / mTileSize);
         int newNumberOfRows = (int) Math.floor(h / mTileSize);
 
@@ -36,7 +43,7 @@ public class TileGrid {
         mTiles = createListOfEmptyTilesForGrid(mTileSize, mTilesPerRow, mNumberOfRows, mXOffset, mYOffset);
     }
 
-    private static List<PositionedTile> createListOfEmptyTilesForGrid(int tileSize,
+    static List<PositionedTile> createListOfEmptyTilesForGrid(int tileSize,
             int tilesPerRow, int numberOfRows, int xOffset, int yOffset) {
         final int totalTiles = tilesPerRow * numberOfRows;
         List<PositionedTile> tiles = new ArrayList<>(totalTiles);
@@ -55,7 +62,7 @@ public class TileGrid {
         return tiles;
     }
 
-    void occupyTileAtPosition(int xIndex, int yIndex, GameView.TileColor color) {
+    void occupyTileAtPosition(int xIndex, int yIndex, Tile.Color color) {
         int index = mTilesPerRow * yIndex + xIndex;
         mTiles.get(index).occupy(color);
     }

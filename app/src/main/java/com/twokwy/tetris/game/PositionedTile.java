@@ -17,7 +17,7 @@ public class PositionedTile {
         mBounds = bounds;
     }
 
-    Optional<GameView.TileColor> getColor() {
+    Optional<Tile.Color> getColor() {
         return mTile.getColor();
     }
 
@@ -25,7 +25,7 @@ public class PositionedTile {
         return mBounds;
     }
 
-    public void occupy(GameView.TileColor color) {
+    public void occupy(Tile.Color color) {
         mTile.occupy(color);
     }
 }
