@@ -11,5 +11,5 @@ public interface TetrisShape {
 
     Tile.Color getColor();
 
-    List<PositionedTile> addToGridAtLocation(TileGrid grid, int row, int column);
+    List<PositionedTile> addToGridAtLocation(TileGridImpl grid, int row, int column);
 }

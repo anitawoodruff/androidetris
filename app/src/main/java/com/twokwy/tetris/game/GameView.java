@@ -10,35 +10,46 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import com.twokwy.tetris.R;
-
-import java.util.List;
 
 public class GameView extends View {
 
     private TileGrid mTileGrid;
-    private int mCurrentLevel = 0;
-
-    public void onDownControl() {
-        mTileGrid.insertShapeAtTop(new Square(Tile.Color.BLUE));
-        invalidate();
-    }
+    private final int mTileSize;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GameView);
+        mTileSize = a.getDimensionPixelSize(R.styleable.GameView_tileSize, 24);
+        a.recycle();
+        init();
     }
 
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context, attrs, defStyle);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GameView);
+        mTileSize = a.getDimensionPixelSize(R.styleable.GameView_tileSize, 24);
+        a.recycle();
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyle) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GameView);
-        int tileSize = a.getDimensionPixelSize(R.styleable.GameView_tileSize, 24);
-        mTileGrid = new TileGrid(tileSize);
-        a.recycle();
+    private void init() {
+        mTileGrid = new EmptyTileGrid();
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        mTileGrid.updateGridSize(w, h);
+        invalidate();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        final ImmutableList<PositionedTile> tilesToDraw = mTileGrid.getPositionedTiles();
+        for (PositionedTile tile : tilesToDraw) {
+            createTileDrawable(tile.getColor(), tile.getBounds()).draw(canvas);
+        }
     }
 
     private ShapeDrawable createTileDrawable(Optional<Tile.Color> tileColor, Rect bounds) {
@@ -50,7 +61,7 @@ public class GameView extends View {
         return tileDrawable;
     }
 
-    private int translateToResId(Tile.Color tileColor) {
+    private static int translateToResId(Tile.Color tileColor) {
         switch(tileColor) {
             case RED:
                 return R.color.red;
@@ -64,22 +75,8 @@ public class GameView extends View {
         return -1; // shouldn't happen
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mTileGrid.updateGridSize(w, h);
-        mTileGrid.occupyTileAtPosition(0, 0, Tile.Color.RED);
-        mTileGrid.occupyTileAtPosition(1, 0, Tile.Color.GREEN);
-        mTileGrid.occupyTileAtPosition(0, 1, Tile.Color.BLUE);
-        mTileGrid.occupyTileAtPosition(1, 1, Tile.Color.YELLOW);
+    public void onDownControl() {
+        mTileGrid.insertShapeAtTop(new Square(Tile.Color.BLUE));
         invalidate();
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        final List<PositionedTile> tilesToDraw = mTileGrid.getPositionedTiles();
-        for (PositionedTile tile : tilesToDraw) {
-            createTileDrawable(tile.getColor(), tile.getBounds()).draw(canvas);
-        }
     }
 }

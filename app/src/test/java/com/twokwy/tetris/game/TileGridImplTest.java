@@ -10,14 +10,14 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
-public class TileGridTest {
+public class TileGridImplTest {
 
     private static final int TILE_SIZE = 10;
-    private TileGrid mTileGrid;
+    private TileGridImpl mTileGrid;
 
     @Before
     public void setUp() throws Exception {
-        mTileGrid = new TileGrid(TILE_SIZE);
+        mTileGrid = new TileGridImpl(TILE_SIZE);
     }
 
     @After
