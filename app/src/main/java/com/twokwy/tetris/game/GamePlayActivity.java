@@ -42,4 +42,9 @@ public class GamePlayActivity extends Activity implements PauseGameDialogFragmen
         startActivity(intent);
         finish();
     }
+
+    public void onClickDownButton(View view) {
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onDownControl();
+    }
 }

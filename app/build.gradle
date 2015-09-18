@@ -29,6 +29,7 @@ dependencies {
 
     // App's dependencies, including test
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile group: 'com.google.guava', name: 'guava', version: '15.0'
 
     // Testing-only dependencies
     androidTestCompile 'com.android.support.test:runner:0.4'
