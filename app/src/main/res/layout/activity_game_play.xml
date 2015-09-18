@@ -23,11 +23,18 @@
             android:layout_height="wrap_content"
             android:text="0"/>
     </LinearLayout>
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="||"
-        android:onClick="onClickPauseButton"/>
+        android:orientation="vertical"
+        android:gravity="center">
+        <include
+            layout="@layout/game_view"></include>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="||"
+            android:onClick="onClickPauseButton"/>
+    </LinearLayout>
 
 </RelativeLayout>
