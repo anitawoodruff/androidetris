@@ -20,7 +20,7 @@ public class GameView extends View {
     private int mCurrentLevel = 0;
 
     public void onDownControl() {
-        mTileGrid.occupyTileAtPosition(mCurrentLevel++, 0, Tile.Color.BLUE);
+        mTileGrid.insertShapeAtTop(new Square(Tile.Color.BLUE));
         invalidate();
     }
 
@@ -36,7 +36,7 @@ public class GameView extends View {
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GameView);
-        int tileSize = a.getDimensionPixelSize(R.styleable.GameView_tileSize, 12);
+        int tileSize = a.getDimensionPixelSize(R.styleable.GameView_tileSize, 24);
         mTileGrid = new TileGrid(tileSize);
         a.recycle();
     }
@@ -68,6 +68,10 @@ public class GameView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         mTileGrid.updateGridSize(w, h);
         mTileGrid.occupyTileAtPosition(0, 0, Tile.Color.RED);
+        mTileGrid.occupyTileAtPosition(1, 0, Tile.Color.GREEN);
+        mTileGrid.occupyTileAtPosition(0, 1, Tile.Color.BLUE);
+        mTileGrid.occupyTileAtPosition(1, 1, Tile.Color.YELLOW);
+        invalidate();
     }
 
     @Override

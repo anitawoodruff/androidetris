@@ -28,4 +28,8 @@ public class PositionedTile {
     public void occupy(Tile.Color color) {
         mTile.occupy(color);
     }
+
+    public boolean isOccupied() {
+        return mTile.isOccupied();
+    }
 }

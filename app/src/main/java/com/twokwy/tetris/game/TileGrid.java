@@ -28,19 +28,14 @@ public class TileGrid {
      * @param h height (px) available for the tile grid
      */
     public void updateGridSize(int w, int h) {
-        int newTilesPerRow = (int) Math.floor(w / mTileSize);
-        int newNumberOfRows = (int) Math.floor(h / mTileSize);
+        mTilesPerRow = (int) Math.floor(w / mTileSize);
+        mNumberOfRows = (int) Math.floor(h / mTileSize);
 
-        mXOffset = ((w - (mTileSize * mTilesPerRow)) / 2);
-        mYOffset = ((h - (mTileSize * mNumberOfRows)) / 2);
+        mXOffset = (w - (mTileSize * mTilesPerRow)) / 2;
+        mYOffset = (h - (mTileSize * mNumberOfRows)) / 2;
 
-        if (newTilesPerRow == mTilesPerRow && newNumberOfRows == mNumberOfRows) {
-            // No need to repopulate tiles
-            return;
-        }
-        mTilesPerRow = newTilesPerRow;
-        mNumberOfRows = newNumberOfRows;
-        mTiles = createListOfEmptyTilesForGrid(mTileSize, mTilesPerRow, mNumberOfRows, mXOffset, mYOffset);
+        mTiles = createListOfEmptyTilesForGrid(mTileSize,
+                this.mTilesPerRow, mNumberOfRows, mXOffset, mYOffset);
     }
 
     static List<PositionedTile> createListOfEmptyTilesForGrid(int tileSize,
@@ -48,12 +43,12 @@ public class TileGrid {
         final int totalTiles = tilesPerRow * numberOfRows;
         List<PositionedTile> tiles = new ArrayList<>(totalTiles);
         for (int i = 0; i < totalTiles; i++) {
-            final int xIndex = i % tilesPerRow;
-            final int yIndex = i / numberOfRows;
+            final int colIndex = i % tilesPerRow;
+            final int rowIndex = i / numberOfRows;
 
-            final int leftBound = xOffset + xIndex * tileSize;
+            final int leftBound = xOffset + colIndex * tileSize;
             final int rightBound = leftBound + tileSize;
-            final int topBound = yOffset + yIndex * tileSize;
+            final int topBound = yOffset + rowIndex * tileSize;
             final int bottomBound = topBound + tileSize;
 
             final Rect bounds = new Rect(leftBound, topBound, rightBound, bottomBound);
@@ -62,12 +57,27 @@ public class TileGrid {
         return tiles;
     }
 
-    void occupyTileAtPosition(int xIndex, int yIndex, Tile.Color color) {
-        int index = mTilesPerRow * yIndex + xIndex;
-        mTiles.get(index).occupy(color);
+    public PositionedTile getTileAtPosition(int rowIndex, int columnIndex) throws TileOutOfGridException {
+        int index = mTilesPerRow * rowIndex + columnIndex;
+        if (rowIndex > mNumberOfRows || columnIndex > mTilesPerRow || index > mTiles.size()-1) {
+            throw new TileOutOfGridException(
+                    String.format("Tried to get tile at position (%d, %d) i.e. index %d when the grid is only" +
+                                    " %d tiles wide and %d tiles tall (%d tiles stored)",
+                            rowIndex, columnIndex, index, mTilesPerRow,
+                            mNumberOfRows, mTiles.size()));
+        }
+        return mTiles.get(index);
+    }
+
+    void occupyTileAtPosition(int rowIndex, int columnIndex, Tile.Color color) throws TileOutOfGridException {
+        getTileAtPosition(rowIndex, columnIndex).occupy(color);
     }
 
     List<PositionedTile> getPositionedTiles() {
         return mTiles;
+    }
+
+    public void insertShapeAtTop(TetrisShape shape) {
+        shape.addToGridAtLocation(this, 0, mTilesPerRow / 2 - 1);
     }
 }
