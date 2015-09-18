@@ -14,7 +14,7 @@ public class TileGrid {
     private int mNumberOfRows;
     private int mXOffset;
     private int mYOffset;
-    private List<Tile> mTiles;
+    private List<PositionedTile> mTiles;
 
     public TileGrid(int tileSize) {
         mTileSize = tileSize;
@@ -33,39 +33,34 @@ public class TileGrid {
         }
         mTilesPerRow = newTilesPerRow;
         mNumberOfRows = newNumberOfRows;
-        mTiles = createListOfEmptyTilesForGrid(mTilesPerRow, mNumberOfRows);
+        mTiles = createListOfEmptyTilesForGrid(mTileSize, mTilesPerRow, mNumberOfRows, mXOffset, mYOffset);
     }
 
-    private static List<Tile> createListOfEmptyTilesForGrid(int tilesPerRow, int numberOfRows) {
+    private static List<PositionedTile> createListOfEmptyTilesForGrid(int tileSize,
+            int tilesPerRow, int numberOfRows, int xOffset, int yOffset) {
         final int totalTiles = tilesPerRow * numberOfRows;
-        List<Tile> tiles = new ArrayList<>(totalTiles);
+        List<PositionedTile> tiles = new ArrayList<>(totalTiles);
         for (int i = 0; i < totalTiles; i++) {
-            tiles.add(i, new Tile());
+            final int xIndex = i % tilesPerRow;
+            final int yIndex = i / numberOfRows;
+
+            final int leftBound = xOffset + xIndex * tileSize;
+            final int rightBound = leftBound + tileSize;
+            final int topBound = yOffset + yIndex * tileSize;
+            final int bottomBound = topBound + tileSize;
+
+            final Rect bounds = new Rect(leftBound, topBound, rightBound, bottomBound);
+            tiles.add(i, new PositionedTile(new Tile(), bounds));
         }
         return tiles;
     }
 
-    public void occupyTileAtPosition(int xIndex, int yIndex, GameView.TileColor color) {
+    void occupyTileAtPosition(int xIndex, int yIndex, GameView.TileColor color) {
         int index = mTilesPerRow * yIndex + xIndex;
         mTiles.get(index).occupy(color);
     }
 
-    public List<PositionedTile> getPositionedTiles() {
-        final List<PositionedTile> positionedTiles = new ArrayList<>();
-        for (int i = 0; i < mTiles.size(); i++) {
-            final int xIndex = i % mTilesPerRow;
-            final int yIndex = i / mTilesPerRow;
-
-            final int leftBound = mXOffset + xIndex * mTileSize;
-            final int rightBound = leftBound + mTileSize;
-            final int topBound = mYOffset + yIndex * mTileSize;
-            final int bottomBound = topBound + mTileSize;
-
-            final Rect bounds = new Rect(leftBound, topBound, rightBound, bottomBound);
-
-            final PositionedTile positionedTile = new PositionedTile(mTiles.get(i), bounds);
-            positionedTiles.add(positionedTile);
-        }
-        return positionedTiles;
+    List<PositionedTile> getPositionedTiles() {
+        return mTiles;
     }
 }

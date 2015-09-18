@@ -20,7 +20,7 @@ public class GameView extends View {
     private int mCurrentLevel = 0;
 
     public void onDownControl() {
-        mTileGrid.fillRowAtPosition(mCurrentLevel++);
+        mTileGrid.occupyTileAtPosition(mCurrentLevel++, 0, TileColor.BLUE);
         invalidate();
     }
 
@@ -72,7 +72,6 @@ public class GameView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         mTileGrid.updateGridSizeAndClearTiles(w, h);
         mTileGrid.occupyTileAtPosition(0, 0, TileColor.RED);
-        mTileGrid.fillTopRowWithBlue();
     }
 
     @Override

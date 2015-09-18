@@ -24,4 +24,8 @@ public class PositionedTile {
     public Rect getBounds() {
         return mBounds;
     }
+
+    public void occupy(GameView.TileColor color) {
+        mTile.occupy(color);
+    }
 }
