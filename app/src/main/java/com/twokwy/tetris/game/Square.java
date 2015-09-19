@@ -1,7 +1,5 @@
 package com.twokwy.tetris.game;
 
-import com.google.common.collect.ImmutableList;
-
 /**
  * Created by anita on 18/09/2015.
  */
@@ -26,16 +24,11 @@ public class Square implements TetrisShape {
     }
 
     @Override
-    public ImmutableList<PositionedTile> addToGridAtLocation(final TileGridImpl grid, final int row, final int column) {
+    public void addToGridAtLocation(final TileGridImpl grid, int x, int y) {
         for (int i = 0; i < SIDE_LENGTH; i++) {
             for (int j = 0; j < SIDE_LENGTH; j++) {
-                try {
-                    grid.occupyTileAtPosition(row + i, column + j, mColor);
-                } catch (TileOutOfGridException e) {
-                    throw new TileOutOfGridException(e.getMessage() + " i="+i + ", j="+j);
-                }
+                grid.occupyTileAtPosition(x + i, y + j, mColor);
             }
         }
-        return grid.getPositionedTiles();
     }
 }
