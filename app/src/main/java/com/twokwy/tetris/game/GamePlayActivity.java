@@ -43,11 +43,6 @@ public class GamePlayActivity extends Activity implements GameOverListener, Paus
         finish();
     }
 
-    public void onClickDownButton(View view) {
-        GameView gameView = (GameView) findViewById(R.id.game_view);
-        gameView.onDownControl();
-    }
-
     @Override
     public void gameOver(int score) {
         DialogFragment gameOverDialogFragment = new GameOverDialogFragment();
@@ -59,5 +54,25 @@ public class GamePlayActivity extends Activity implements GameOverListener, Paus
 
     public void onClickGameOverOKButton(View view) {
         onUserEndedGame();
+    }
+
+    public void onClickNewPieceButton(View view) {
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onInsertNewPiece();
+    }
+
+    public void onClickLeftButton(View view) {
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onMoveLeftControl();
+    }
+
+    public void onClickRightButton(View view) {
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onMoveRightControl();
+    }
+
+    public void onClickDownButton(View view) {
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onMoveDownControl();
     }
 }

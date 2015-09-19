@@ -32,4 +32,11 @@ public class PositionedTile {
     public boolean isOccupied() {
         return mTile.isOccupied();
     }
+
+    /**
+     * Sets the tile to unoccupied (no color). Tile bounds are unaffected.
+     */
+    public void clear() {
+        mTile.clear();
+    }
 }

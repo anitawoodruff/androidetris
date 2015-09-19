@@ -24,15 +24,30 @@ public class Square implements TetrisShape {
     }
 
     @Override
-    public boolean addToGridAtLocation(final TileGridImpl grid, int x, int y) {
+    public boolean addToGridAtLocation(final TileGrid grid, int x, int y) {
+        // check space is available first.
         for (int i = 0; i < SIDE_LENGTH; i++) {
             for (int j = 0; j < SIDE_LENGTH; j++) {
-                if (grid.getTileAtPosition(x + i, y + j).isOccupied()) {
+                if (!grid.isLocationAvailable(x + i, y + j)) {
                     return false;
                 }
+            }
+        }
+        for (int i = 0; i < SIDE_LENGTH; i++) {
+            for (int j = 0; j < SIDE_LENGTH; j++) {
                 grid.occupyTileAtPosition(x + i, y + j, mColor);
             }
         }
         return true;
+    }
+
+    @Override
+    public void removeFromGridAtLocation(TileGrid grid, int x, int y) {
+        for (int i = 0; i < SIDE_LENGTH; i++) {
+            for (int j = 0; j < SIDE_LENGTH; j++) {
+                grid.clearTileAtPosition(x + i, y + j);
+            }
+        }
+
     }
 }

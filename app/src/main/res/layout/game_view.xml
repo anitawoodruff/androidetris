@@ -1,6 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content" android:layout_height="match_parent">
-
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
     <com.twokwy.tetris.game.GameView
         android:id="@+id/game_view"
         android:background="#ccc"
@@ -9,4 +7,4 @@
         android:paddingLeft="20dp"
         android:paddingBottom="40dp"/>
 
-</FrameLayout>
+</merge>

@@ -1,5 +1,6 @@
 package com.twokwy.tetris.game;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -54,7 +55,15 @@ public class GameView extends View {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mGameOverListener = (GameOverListener) this.getContext();
+        try {
+            mGameOverListener = (GameOverListener) this.getContext();
+        } catch (ClassCastException e) {
+            if (!(getContext() instanceof Activity)) {
+                return; // workaround for layout preview screen in Android Studio
+            }
+            throw new ClassCastException(
+                    this.getContext().toString() + " must implement GameOverListener");
+        }
     }
 
     @Override
@@ -100,7 +109,18 @@ public class GameView extends View {
         }
     }
 
-    public void onDownControl() {
-        onInsertNewPiece();
+    public void onMoveDownControl() {
+        mTileGrid.moveCurrentShapeDown();
+        invalidate();
+    }
+
+    public void onMoveLeftControl() {
+        mTileGrid.moveCurrentShapeLeft();
+        invalidate();
+    }
+
+    public void onMoveRightControl() {
+        mTileGrid.moveCurrentShapeRight();
+        invalidate();
     }
 }

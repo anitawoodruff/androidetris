@@ -14,5 +14,34 @@ public interface TileGrid {
      */
     boolean insertShapeAtTop(TetrisShape shape);
 
+    void occupyTileAtPosition(int x, int y, Tile.Color color) throws TileOutOfGridException;
+
     ImmutableList<PositionedTile> getPositionedTiles();
+
+    /**
+     *
+     * @return true if the move succeeded.
+     */
+    boolean moveCurrentShapeDown();
+
+    /**
+     *
+     * @return true if the move succeeded
+     */
+    boolean moveCurrentShapeLeft();
+
+    /**
+     *
+     * @return true if the move succeeded
+     */
+    boolean moveCurrentShapeRight();
+
+    void clearTileAtPosition(int x, int y);
+
+    PositionedTile getTileAtPosition(int x, int y) throws TileOutOfGridException;
+
+    /**
+     * Returns true if the given location is in bounds and unoccupied.
+     */
+    boolean isLocationAvailable(int x, int y);
 }

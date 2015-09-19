@@ -17,12 +17,45 @@ public class TileGridFactory {
 
             @Override
             public boolean insertShapeAtTop(TetrisShape shape) {
-                return true;
+                return false;
+            }
+
+            @Override
+            public void occupyTileAtPosition(int x, int y, Tile.Color color) throws TileOutOfGridException {
+
             }
 
             @Override
             public ImmutableList<PositionedTile> getPositionedTiles() {
                 return ImmutableList.of();
+            }
+
+            @Override
+            public boolean moveCurrentShapeDown() {
+                return false;
+            }
+
+            @Override
+            public boolean moveCurrentShapeLeft() {
+                return false;
+            }
+
+            @Override
+            public boolean moveCurrentShapeRight() {
+                return false;
+            }
+
+            @Override
+            public void clearTileAtPosition(int x, int y) {}
+
+            @Override
+            public PositionedTile getTileAtPosition(int x, int y) {
+                return null;
+            }
+
+            @Override
+            public boolean isLocationAvailable(int x, int y) {
+                return false;
             }
         };
     }
