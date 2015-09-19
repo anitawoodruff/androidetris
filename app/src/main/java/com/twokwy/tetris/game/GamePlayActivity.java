@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.twokwy.tetris.R;
+import com.twokwy.tetris.game.dialogs.GameOverDialogFragment;
+import com.twokwy.tetris.game.dialogs.PauseGameDialogFragment;
 import com.twokwy.tetris.scores.HighScoresActivity;
 
 /**

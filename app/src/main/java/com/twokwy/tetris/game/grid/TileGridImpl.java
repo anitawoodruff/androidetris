@@ -1,6 +1,10 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.grid;
 
 import com.google.common.collect.ImmutableList;
+import com.twokwy.tetris.game.grid.shapes.Square;
+import com.twokwy.tetris.game.grid.shapes.TetrisShape;
+import com.twokwy.tetris.game.grid.tile.PositionedTile;
+import com.twokwy.tetris.game.grid.tile.Tile;
 
 import java.util.List;
 
@@ -12,7 +16,7 @@ public class TileGridImpl implements TileGrid {
     private final int mWidthInTiles;
     private final int mHeightInTiles;
     private final List<PositionedTile> mTiles;
-    private CurrentShape mCurrentShape;
+    private CurrentPiece mCurrentPiece;
 
     TileGridImpl(int widthInTiles, int heightInTiles, List<PositionedTile> tiles) {
         if (tiles == null || tiles.size() != widthInTiles * heightInTiles) {
@@ -22,10 +26,10 @@ public class TileGridImpl implements TileGrid {
         mWidthInTiles = widthInTiles;
         mHeightInTiles = heightInTiles;
         mTiles = tiles;
-        mCurrentShape = new NullCurrentShape();
+        mCurrentPiece = new NullCurrentPiece();
     }
 
-    private static class NullCurrentShape implements CurrentShape {
+    private static class NullCurrentPiece implements CurrentPiece {
 
         @Override
         public boolean moveDownByOneTile(TileGrid tileGrid) {
@@ -77,7 +81,7 @@ public class TileGridImpl implements TileGrid {
 
     @Override
     public boolean moveCurrentShapeDown() {
-        if (!mCurrentShape.moveDownByOneTile(this)) {
+        if (!mCurrentPiece.moveDownByOneTile(this)) {
             // it's reached the bottom, add a new shape at the top
             insertShapeAtTop(new Square(Tile.Color.BLUE));
             return false;
@@ -87,12 +91,12 @@ public class TileGridImpl implements TileGrid {
 
     @Override
     public boolean moveCurrentShapeLeft() {
-        return mCurrentShape.moveLeftByOneTile(this);
+        return mCurrentPiece.moveLeftByOneTile(this);
     }
 
     @Override
     public boolean moveCurrentShapeRight() {
-        return mCurrentShape.moveRightByOneTile(this);
+        return mCurrentPiece.moveRightByOneTile(this);
     }
 
     @Override
@@ -105,7 +109,7 @@ public class TileGridImpl implements TileGrid {
         final int x = mWidthInTiles / 2 - 1;
         final int y = 0;
         if (shape.addToGridAtLocation(this, x, y)) {
-            mCurrentShape = new CurrentShapeImpl(shape, x, y);
+            mCurrentPiece = new CurrentPieceImpl(shape, x, y);
             return true;
         } else {
             return false;

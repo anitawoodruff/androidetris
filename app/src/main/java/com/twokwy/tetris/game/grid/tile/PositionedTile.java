@@ -1,4 +1,4 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.grid.tile;
 
 import android.graphics.Rect;
 

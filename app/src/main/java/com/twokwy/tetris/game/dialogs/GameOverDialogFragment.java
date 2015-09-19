@@ -1,4 +1,4 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,7 +15,7 @@ import com.twokwy.tetris.R;
  * Created by anita on 19/09/2015.
  */
 public class GameOverDialogFragment extends DialogFragment {
-    static final String GAME_OVER_SCORE_KEY = "game_over_score";
+    public static final String GAME_OVER_SCORE_KEY = "game_over_score";
 
     public GameOverDialogFragment() {
     }

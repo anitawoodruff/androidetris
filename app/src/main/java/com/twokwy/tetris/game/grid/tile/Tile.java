@@ -1,13 +1,13 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.grid.tile;
 
 import com.google.common.base.Optional;
 
 /**
  * Created by anita on 18/09/2015.
  */
-class Tile {
+public class Tile {
 
-    enum Color {
+    public enum Color {
         RED, GREEN, BLUE, YELLOW
     }
 

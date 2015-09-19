@@ -1,8 +1,11 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.grid;
 
 import android.graphics.Rect;
 
 import com.google.common.collect.ImmutableList;
+import com.twokwy.tetris.game.grid.shapes.TetrisShape;
+import com.twokwy.tetris.game.grid.tile.PositionedTile;
+import com.twokwy.tetris.game.grid.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.List;

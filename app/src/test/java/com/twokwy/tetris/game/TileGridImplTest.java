@@ -1,6 +1,10 @@
 package com.twokwy.tetris.game;
 
 import com.google.common.collect.ImmutableList;
+import com.twokwy.tetris.game.grid.tile.PositionedTile;
+import com.twokwy.tetris.game.grid.shapes.Square;
+import com.twokwy.tetris.game.grid.TileGridImpl;
+import com.twokwy.tetris.game.grid.TileOutOfGridException;
 
 import org.junit.After;
 import org.junit.Before;

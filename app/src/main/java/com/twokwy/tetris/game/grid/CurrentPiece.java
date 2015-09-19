@@ -1,9 +1,9 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.grid;
 
 /**
  * Created by anita on 19/09/2015.
  */
-public interface CurrentShape {
+public interface CurrentPiece {
     boolean moveDownByOneTile(TileGrid tileGrid);
 
     boolean moveLeftByOneTile(TileGrid tileGrid);

@@ -1,4 +1,4 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;

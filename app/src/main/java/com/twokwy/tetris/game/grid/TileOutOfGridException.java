@@ -1,4 +1,4 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.grid;
 
 /**
  * Created by anita on 18/09/2015.

@@ -1,4 +1,7 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.grid.shapes;
+
+import com.twokwy.tetris.game.grid.tile.Tile;
+import com.twokwy.tetris.game.grid.TileGrid;
 
 /**
  * Created by anita on 18/09/2015.

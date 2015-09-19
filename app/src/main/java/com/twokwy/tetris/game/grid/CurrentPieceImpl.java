@@ -1,15 +1,17 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.grid;
+
+import com.twokwy.tetris.game.grid.shapes.TetrisShape;
 
 /**
  * Created by anita on 19/09/2015.
  */
-class CurrentShapeImpl implements CurrentShape {
+public class CurrentPieceImpl implements CurrentPiece {
 
     private final TetrisShape mShape;
     private int mXLocation;
     private int mYLocation;
 
-    public CurrentShapeImpl(TetrisShape shape, int x, int y) {
+    public CurrentPieceImpl(TetrisShape shape, int x, int y) {
         mShape = shape;
         mXLocation = x;
         mYLocation = y;

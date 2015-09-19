@@ -14,6 +14,11 @@ import android.view.View;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.twokwy.tetris.R;
+import com.twokwy.tetris.game.grid.tile.PositionedTile;
+import com.twokwy.tetris.game.grid.shapes.Square;
+import com.twokwy.tetris.game.grid.tile.Tile;
+import com.twokwy.tetris.game.grid.TileGrid;
+import com.twokwy.tetris.game.grid.TileGridFactory;
 
 public class GameView extends View {
 
