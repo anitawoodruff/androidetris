@@ -16,8 +16,9 @@ import com.twokwy.tetris.R;
 
 public class GameView extends View {
 
-    private TileGrid mTileGrid;
     private final int mTileSize;
+    private TileGrid mTileGrid;
+    private GameOverListener mGameOverListener;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -37,11 +38,23 @@ public class GameView extends View {
     private void init() {
         // initialise the real tile grid later in onSizeChanged when dimensions are known
         mTileGrid = TileGridFactory.createEmptyTileGrid();
+        mGameOverListener = new GameOverListener() {
+            @Override
+            public void gameOver(int score) {
+                // empty implementation - real will be set in onAttachedToWindow
+            }
+        };
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         mTileGrid = TileGridFactory.createToFillWidthAndHeight(mTileSize, w, h);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mGameOverListener = (GameOverListener) this.getContext();
     }
 
     @Override
@@ -77,8 +90,17 @@ public class GameView extends View {
         return -1; // shouldn't happen
     }
 
+    public void onInsertNewPiece() {
+        // TODO use a shape generator
+        if (!mTileGrid.insertShapeAtTop(new Square(Tile.Color.BLUE))) {
+            // could not insert, so we must have reached the top
+            mGameOverListener.gameOver(0); // TODO pass score
+        } else {
+            invalidate();
+        }
+    }
+
     public void onDownControl() {
-        mTileGrid.insertShapeAtTop(new Square(Tile.Color.BLUE));
-        invalidate();
+        onInsertNewPiece();
     }
 }

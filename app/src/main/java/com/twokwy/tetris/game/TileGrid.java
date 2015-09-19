@@ -7,7 +7,12 @@ import com.google.common.collect.ImmutableList;
  */
 public interface TileGrid {
 
-    void insertShapeAtTop(TetrisShape shape);
+    /**
+     * Tries to insert the given shape at the top of the grid.
+     * This shape will become the new currentPiece if the insert succeeds.
+     * @return true if it succeeded, false if there was no space to insert it.
+     */
+    boolean insertShapeAtTop(TetrisShape shape);
 
     ImmutableList<PositionedTile> getPositionedTiles();
 }

@@ -12,7 +12,7 @@ import com.twokwy.tetris.scores.HighScoresActivity;
 /**
  * Created by anita on 16/09/2015.
  */
-public class GamePlayActivity extends Activity implements PauseGameDialogFragment.OnUserEndedGameListener {
+public class GamePlayActivity extends Activity implements GameOverListener, PauseGameDialogFragment.OnUserEndedGameListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,5 +46,18 @@ public class GamePlayActivity extends Activity implements PauseGameDialogFragmen
     public void onClickDownButton(View view) {
         GameView gameView = (GameView) findViewById(R.id.game_view);
         gameView.onDownControl();
+    }
+
+    @Override
+    public void gameOver(int score) {
+        DialogFragment gameOverDialogFragment = new GameOverDialogFragment();
+        Bundle args = new Bundle();
+        args.putInt(GameOverDialogFragment.GAME_OVER_SCORE_KEY, score);
+        gameOverDialogFragment.setArguments(args);
+        gameOverDialogFragment.show(getFragmentManager(), "game-over-popup");
+    }
+
+    public void onClickGameOverOKButton(View view) {
+        onUserEndedGame();
     }
 }

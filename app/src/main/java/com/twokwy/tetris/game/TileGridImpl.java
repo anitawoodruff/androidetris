@@ -44,7 +44,7 @@ public class TileGridImpl implements TileGrid {
     }
 
     @Override
-    public void insertShapeAtTop(TetrisShape shape) {
-        shape.addToGridAtLocation(this, mWidthInTiles / 2 - 1, 0);
+    public boolean insertShapeAtTop(TetrisShape shape) {
+        return shape.addToGridAtLocation(this, mWidthInTiles / 2 - 1, 0);
     }
 }

@@ -16,8 +16,8 @@ public class TileGridFactory {
         return new TileGrid() {
 
             @Override
-            public void insertShapeAtTop(TetrisShape shape) {
-                return;
+            public boolean insertShapeAtTop(TetrisShape shape) {
+                return true;
             }
 
             @Override

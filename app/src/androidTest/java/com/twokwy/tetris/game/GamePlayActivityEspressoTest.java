@@ -1,5 +1,6 @@
 package com.twokwy.tetris.game;
 
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -76,6 +77,26 @@ public class GamePlayActivityEspressoTest {
     public void startsHighScoresActivityWhenEndGameButtonIsClicked() {
         onView(withText("||")).perform(click());
         onView(withText("End Game")).perform(click());
+
+        intended(hasComponent(HighScoresActivity.class.getName()));
+    }
+
+    @Test
+    public void showsEndGameDialogWhenUserMashesDrop() {
+        onView(withText("v")).perform(click());
+        for (int i = 0; i < 20; i++) {
+            try {
+                onView(withText("v")).perform(click());
+            } catch (NoMatchingViewException e) {
+                // That's ok, game over dialog msut be showing already
+            }
+        }
+
+        // Dialog should now be visible
+        onView(withText("GAME OVER")).check(matches(isDisplayed()));
+        onView(withText("SCORE: ")).check(matches(isDisplayed()));
+
+        onView(withText("OK")).perform(click());
 
         intended(hasComponent(HighScoresActivity.class.getName()));
     }

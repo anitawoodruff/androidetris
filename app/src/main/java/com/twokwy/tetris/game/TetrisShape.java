@@ -9,5 +9,5 @@ public interface TetrisShape {
 
     Tile.Color getColor();
 
-    void addToGridAtLocation(TileGridImpl grid, int x, int y);
+    boolean addToGridAtLocation(TileGridImpl grid, int x, int y);
 }
