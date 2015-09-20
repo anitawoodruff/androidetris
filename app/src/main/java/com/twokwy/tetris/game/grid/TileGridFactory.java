@@ -3,7 +3,6 @@ package com.twokwy.tetris.game.grid;
 import android.graphics.Rect;
 
 import com.google.common.collect.ImmutableList;
-import com.twokwy.tetris.game.grid.shapes.TetrisShape;
 import com.twokwy.tetris.game.grid.tile.PositionedTile;
 import com.twokwy.tetris.game.grid.tile.Tile;
 
@@ -19,7 +18,7 @@ public class TileGridFactory {
         return new TileGrid() {
 
             @Override
-            public boolean insertShapeAtTop(TetrisShape shape) {
+            public boolean insertNewShapeAtTop() {
                 return false;
             }
 

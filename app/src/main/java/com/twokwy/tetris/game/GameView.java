@@ -16,11 +16,10 @@ import android.view.View;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.twokwy.tetris.R;
-import com.twokwy.tetris.game.grid.tile.PositionedTile;
-import com.twokwy.tetris.game.grid.shapes.Square;
-import com.twokwy.tetris.game.grid.tile.Tile;
 import com.twokwy.tetris.game.grid.TileGrid;
 import com.twokwy.tetris.game.grid.TileGridFactory;
+import com.twokwy.tetris.game.grid.tile.PositionedTile;
+import com.twokwy.tetris.game.grid.tile.Tile;
 
 public class GameView extends View {
 
@@ -130,7 +129,7 @@ public class GameView extends View {
 
     public void onStartGame() {
         // TODO use a shape generator
-        if (!mTileGrid.insertShapeAtTop(new Square(Tile.Color.BLUE))) {
+        if (!mTileGrid.insertNewShapeAtTop()) {
             // could not insert, so we must have reached the top
             mGameOverListener.gameOver(0); // TODO pass score
         } else {

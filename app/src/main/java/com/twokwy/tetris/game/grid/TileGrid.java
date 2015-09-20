@@ -15,7 +15,7 @@ public interface TileGrid {
      * This shape will become the new currentPiece if the insert succeeds.
      * @return true if it succeeded, false if there was no space to insert it.
      */
-    boolean insertShapeAtTop(TetrisShape shape);
+    boolean insertNewShapeAtTop();
 
     void occupyTileAtPosition(int x, int y, Tile.Color color) throws TileOutOfGridException;
 

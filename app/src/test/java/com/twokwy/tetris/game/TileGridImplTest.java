@@ -1,10 +1,10 @@
 package com.twokwy.tetris.game;
 
 import com.google.common.collect.ImmutableList;
-import com.twokwy.tetris.game.grid.tile.PositionedTile;
-import com.twokwy.tetris.game.grid.shapes.Square;
 import com.twokwy.tetris.game.grid.TileGridImpl;
 import com.twokwy.tetris.game.grid.TileOutOfGridException;
+import com.twokwy.tetris.game.grid.tile.PositionedTile;
+import com.twokwy.tetris.game.grid.tile.Tile;
 
 import org.junit.After;
 import org.junit.Before;
@@ -96,7 +96,7 @@ public class TileGridImplTest {
 
         verify(mMockTiles.get(0), never()).occupy(any(Tile.Color.class));
 
-        mTileGrid.insertShapeAtTop(new Square(Tile.Color.RED));
+        mTileGrid.insertNewShapeAtTop();
 
         // Should take up space as follows:
         // ..xx..

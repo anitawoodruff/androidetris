@@ -1,8 +1,8 @@
 package com.twokwy.tetris.game.grid;
 
 import com.google.common.collect.ImmutableList;
-import com.twokwy.tetris.game.grid.shapes.Square;
 import com.twokwy.tetris.game.grid.shapes.TetrisShape;
+import com.twokwy.tetris.game.grid.shapes.TetrisShapeSupplier;
 import com.twokwy.tetris.game.grid.tile.PositionedTile;
 import com.twokwy.tetris.game.grid.tile.Tile;
 
@@ -16,6 +16,7 @@ public class TileGridImpl implements TileGrid {
     private final int mWidthInTiles;
     private final int mHeightInTiles;
     private final List<PositionedTile> mTiles;
+    private final TetrisShapeSupplier mNewPieceSuppier;
     private CurrentPiece mCurrentPiece;
 
     TileGridImpl(int widthInTiles, int heightInTiles, List<PositionedTile> tiles) {
@@ -26,6 +27,7 @@ public class TileGridImpl implements TileGrid {
         mWidthInTiles = widthInTiles;
         mHeightInTiles = heightInTiles;
         mTiles = tiles;
+        mNewPieceSuppier = new TetrisShapeSupplier();
         mCurrentPiece = new NullCurrentPiece();
     }
 
@@ -83,7 +85,7 @@ public class TileGridImpl implements TileGrid {
     public boolean moveCurrentShapeDown() {
         if (!mCurrentPiece.moveDownByOneTile(this)) {
             // it's reached the bottom, add a new shape at the top
-            insertShapeAtTop(new Square(Tile.Color.BLUE));
+            insertNewShapeAtTop();
             return false;
         }
         return true;
@@ -105,9 +107,10 @@ public class TileGridImpl implements TileGrid {
     }
 
     @Override
-    public boolean insertShapeAtTop(TetrisShape shape) {
+    public boolean insertNewShapeAtTop() {
         final int x = mWidthInTiles / 2 - 1;
         final int y = 0;
+        final TetrisShape shape = mNewPieceSuppier.get();
         if (shape.addToGridAtLocation(this, x, y)) {
             mCurrentPiece = new CurrentPieceImpl(shape, x, y);
             return true;
