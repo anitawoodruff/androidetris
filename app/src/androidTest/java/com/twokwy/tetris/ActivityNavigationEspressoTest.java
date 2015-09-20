@@ -4,12 +4,12 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -26,14 +26,9 @@ public class ActivityNavigationEspressoTest {
     public IntentsTestRule<TopMenuActivity> mActivityRule = new IntentsTestRule(TopMenuActivity.class);
 
     @Test
+    @Ignore // FIXME When there is an easy way to trigger game over / check if in same game
     public void cannotGoBackToGameAfterEnded() {
         onView(withText("Play")).perform(click());
-
-        // FIXME When there is an easy way to trigger game over / check if in same game
-
-        pressBack();
-
-        onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
     }
 
     @Test
