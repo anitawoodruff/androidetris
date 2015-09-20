@@ -12,12 +12,12 @@ public class PositionedTile {
     private final Tile mTile;
     private final Rect mBounds;
 
-    PositionedTile(Tile tile, Rect bounds) {
+    public PositionedTile(Tile tile, Rect bounds) {
         mTile = tile;
         mBounds = bounds;
     }
 
-    Optional<Tile.Color> getColor() {
+    public Optional<Tile.Color> getColor() {
         return mTile.getColor();
     }
 

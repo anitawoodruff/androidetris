@@ -8,6 +8,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -25,6 +27,23 @@ public class GameView extends View {
     private final int mTileSize;
     private TileGrid mTileGrid;
     private GameOverListener mGameOverListener;
+
+    private RefreshHandler mRefreshCurrentPieceHandler = new RefreshHandler();
+    private int mCurrentTick = 500;
+
+    class RefreshHandler extends Handler {
+
+        @Override
+        public void handleMessage(Message msg) {
+            GameView.this.updateCurrentPieceOnTick();
+            GameView.this.invalidate();
+        }
+
+        public void sleep(long delayMillis) {
+            this.removeMessages(0);
+            sendMessageDelayed(obtainMessage(0), delayMillis);
+        }
+    }
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -104,7 +123,12 @@ public class GameView extends View {
         return -1; // shouldn't happen
     }
 
-    public void onInsertNewPiece() {
+    private void updateCurrentPieceOnTick() {
+        mTileGrid.moveCurrentShapeDown();
+        mRefreshCurrentPieceHandler.sleep(mCurrentTick);
+    }
+
+    public void onStartGame() {
         // TODO use a shape generator
         if (!mTileGrid.insertShapeAtTop(new Square(Tile.Color.BLUE))) {
             // could not insert, so we must have reached the top
@@ -112,6 +136,7 @@ public class GameView extends View {
         } else {
             invalidate();
         }
+        updateCurrentPieceOnTick();
     }
 
     public void onMoveDownControl() {

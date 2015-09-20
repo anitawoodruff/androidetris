@@ -58,9 +58,10 @@ public class GamePlayActivity extends Activity implements GameOverListener, Paus
         onUserEndedGame();
     }
 
-    public void onClickNewPieceButton(View view) {
+    public void onClickStartButton(View view) {
         GameView gameView = (GameView) findViewById(R.id.game_view);
-        gameView.onInsertNewPiece();
+        gameView.onStartGame();
+        view.setEnabled(false);
     }
 
     public void onClickLeftButton(View view) {
