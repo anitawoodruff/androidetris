@@ -1,8 +1,8 @@
-package com.twokwy.tetris.game;
+package com.twokwy.tetris.game.grid;
 
 import com.google.common.collect.ImmutableList;
-import com.twokwy.tetris.game.grid.TileGridImpl;
-import com.twokwy.tetris.game.grid.TileOutOfGridException;
+import com.twokwy.tetris.game.grid.shapes.Square;
+import com.twokwy.tetris.game.grid.shapes.TetrisShapeSupplier;
 import com.twokwy.tetris.game.grid.tile.PositionedTile;
 import com.twokwy.tetris.game.grid.tile.Tile;
 
@@ -15,6 +15,7 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -38,7 +39,7 @@ public class TileGridImplTest {
             tiles.add(mockPositionedTile);
         }
         mMockTiles = tiles;
-        mTileGrid = new TileGridImpl(WIDTH, HEIGHT, mMockTiles);
+        mTileGrid = new TileGridImpl(WIDTH, HEIGHT, mMockTiles, null);
     }
 
     @After
@@ -48,18 +49,18 @@ public class TileGridImplTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void testBadInitialisationThrowsException_listEmpty() {
-        new TileGridImpl(4, 5, new ArrayList<PositionedTile>());
+        new TileGridImpl(4, 5, new ArrayList<PositionedTile>(), null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testBadInitialisationThrowsException_listNull() {
-        new TileGridImpl(4, 5, null);
+        new TileGridImpl(4, 5, null, null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testBadInitialisationThrowsException_listTooBig() {
         List<PositionedTile> tiles = ImmutableList.of(new PositionedTile(null, null), new PositionedTile(null, null));
-        new TileGridImpl(1, 1, tiles);
+        new TileGridImpl(1, 1, tiles, null);
     }
 
     @Test
@@ -92,11 +93,14 @@ public class TileGridImplTest {
     }
 
     @Test
-    public void testInsertSquareOnEmptyGrid() {
+    public void testInsertNewShapeAtTop() {
+        // set up to always insert a square
+        TetrisShapeSupplier mockShapeSupplier = mock(TetrisShapeSupplier.class);
+        when(mockShapeSupplier.get()).thenReturn(new Square(Tile.Color.RED));
+        TileGridImpl tileGrid = new TileGridImpl(WIDTH, HEIGHT, mMockTiles, mockShapeSupplier);
 
-        verify(mMockTiles.get(0), never()).occupy(any(Tile.Color.class));
-
-        mTileGrid.insertNewShapeAtTop();
+        boolean result = tileGrid.insertNewShapeAtTop();
+        assertTrue(result);
 
         // Should take up space as follows:
         // ..xx..
@@ -119,7 +123,6 @@ public class TileGridImplTest {
         for (int i = 12; i < 18; i++) {
             verify(mMockTiles.get(i), never()).occupy(any(Tile.Color.class));
         }
-
     }
 
     @Test

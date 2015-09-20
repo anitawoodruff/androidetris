@@ -34,7 +34,7 @@ public class GameView extends View {
 
         @Override
         public void handleMessage(Message msg) {
-            GameView.this.updateCurrentPieceOnTick();
+            GameView.this.updateCurrentPieceAndScheduleNextUpdate();
             GameView.this.invalidate();
         }
 
@@ -122,7 +122,7 @@ public class GameView extends View {
         return -1; // shouldn't happen
     }
 
-    private void updateCurrentPieceOnTick() {
+    private void updateCurrentPieceAndScheduleNextUpdate() {
         mTileGrid.moveCurrentShapeDown();
         mRefreshCurrentPieceHandler.sleep(mCurrentTick);
     }
@@ -135,11 +135,11 @@ public class GameView extends View {
         } else {
             invalidate();
         }
-        updateCurrentPieceOnTick();
+        updateCurrentPieceAndScheduleNextUpdate();
     }
 
-    public void onMoveDownControl() {
-        mTileGrid.moveCurrentShapeDown();
+    public void onDropControl() {
+        mTileGrid.dropCurrentPiece();
         invalidate();
     }
 
@@ -150,6 +150,16 @@ public class GameView extends View {
 
     public void onMoveRightControl() {
         mTileGrid.moveCurrentShapeRight();
+        invalidate();
+    }
+
+    public void onRotateLeftControl() {
+        mTileGrid.rotateCurrentPieceLeft();
+        invalidate();
+    }
+
+    public void onRotateRightControl() {
+        mTileGrid.rotateCurrentPieceRight();
         invalidate();
     }
 }

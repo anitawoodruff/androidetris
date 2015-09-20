@@ -1,7 +1,6 @@
 package com.twokwy.tetris.game.grid;
 
 import com.google.common.collect.ImmutableList;
-import com.twokwy.tetris.game.grid.shapes.TetrisShape;
 import com.twokwy.tetris.game.grid.tile.PositionedTile;
 import com.twokwy.tetris.game.grid.tile.Tile;
 
@@ -47,4 +46,10 @@ public interface TileGrid {
      * Returns true if the given location is in bounds and unoccupied.
      */
     boolean isLocationAvailable(int x, int y);
+
+    void dropCurrentPiece();
+
+    void rotateCurrentPieceLeft();
+
+    void rotateCurrentPieceRight();
 }

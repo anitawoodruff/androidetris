@@ -3,6 +3,7 @@ package com.twokwy.tetris.game.grid;
 import android.graphics.Rect;
 
 import com.google.common.collect.ImmutableList;
+import com.twokwy.tetris.game.grid.shapes.TetrisShapeSupplier;
 import com.twokwy.tetris.game.grid.tile.PositionedTile;
 import com.twokwy.tetris.game.grid.tile.Tile;
 
@@ -59,6 +60,21 @@ public class TileGridFactory {
             public boolean isLocationAvailable(int x, int y) {
                 return false;
             }
+
+            @Override
+            public void dropCurrentPiece() {
+
+            }
+
+            @Override
+            public void rotateCurrentPieceLeft() {
+
+            }
+
+            @Override
+            public void rotateCurrentPieceRight() {
+
+            }
         };
     }
 
@@ -78,7 +94,7 @@ public class TileGridFactory {
         List<PositionedTile> tiles = createListOfEmptyTilesForGrid(tileSize,
                 tilesPerRow, numberOfRows, xOffset, yOffset);
 
-        return new TileGridImpl(tilesPerRow, numberOfRows, tiles);
+        return new TileGridImpl(tilesPerRow, numberOfRows, tiles, new TetrisShapeSupplier());
     }
 
     static List<PositionedTile> createListOfEmptyTilesForGrid(

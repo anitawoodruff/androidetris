@@ -19,7 +19,8 @@ public class TileGridImpl implements TileGrid {
     private final TetrisShapeSupplier mNewPieceSuppier;
     private CurrentPiece mCurrentPiece;
 
-    TileGridImpl(int widthInTiles, int heightInTiles, List<PositionedTile> tiles) {
+    TileGridImpl(int widthInTiles, int heightInTiles, List<PositionedTile> tiles,
+                 TetrisShapeSupplier newPieceSupplier) {
         if (tiles == null || tiles.size() != widthInTiles * heightInTiles) {
             throw new IllegalArgumentException("Provided " + (tiles != null ? tiles.size() : 0)
                     + " tiles for " + widthInTiles * heightInTiles + " slots");
@@ -27,7 +28,7 @@ public class TileGridImpl implements TileGrid {
         mWidthInTiles = widthInTiles;
         mHeightInTiles = heightInTiles;
         mTiles = tiles;
-        mNewPieceSuppier = new TetrisShapeSupplier();
+        mNewPieceSuppier = newPieceSupplier;
         mCurrentPiece = new NullCurrentPiece();
     }
 
@@ -82,6 +83,19 @@ public class TileGridImpl implements TileGrid {
     }
 
     @Override
+    public boolean insertNewShapeAtTop() {
+        final int x = mWidthInTiles / 2 - 1;
+        final int y = 0;
+        final TetrisShape shape = mNewPieceSuppier.get();
+        if (shape.addToGridAtLocation(this, x, y)) {
+            mCurrentPiece = new CurrentPieceImpl(shape, x, y);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public boolean moveCurrentShapeDown() {
         if (!mCurrentPiece.moveDownByOneTile(this)) {
             // it's reached the bottom, add a new shape at the top
@@ -102,20 +116,21 @@ public class TileGridImpl implements TileGrid {
     }
 
     @Override
-    public void clearTileAtPosition(int x, int y) {
-        getTileAtPosition(x, y).clear();
+    public void dropCurrentPiece() {
+
     }
 
     @Override
-    public boolean insertNewShapeAtTop() {
-        final int x = mWidthInTiles / 2 - 1;
-        final int y = 0;
-        final TetrisShape shape = mNewPieceSuppier.get();
-        if (shape.addToGridAtLocation(this, x, y)) {
-            mCurrentPiece = new CurrentPieceImpl(shape, x, y);
-            return true;
-        } else {
-            return false;
-        }
+    public void rotateCurrentPieceLeft() {
+
+    }
+
+    @Override
+    public void rotateCurrentPieceRight() {
+
+    }
+    @Override
+    public void clearTileAtPosition(int x, int y) {
+        getTileAtPosition(x, y).clear();
     }
 }

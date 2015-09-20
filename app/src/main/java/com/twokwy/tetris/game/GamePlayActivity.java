@@ -74,8 +74,18 @@ public class GamePlayActivity extends Activity implements GameOverListener, Paus
         gameView.onMoveRightControl();
     }
 
-    public void onClickDownButton(View view) {
+    public void onClickRotateLeftButton(View view) {
         GameView gameView = (GameView) findViewById(R.id.game_view);
-        gameView.onMoveDownControl();
+        gameView.onRotateLeftControl();
+    }
+
+    public void onClickRotateRightButton(View view) {
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onRotateRightControl();
+    }
+
+    public void onClickDropButton(View view) {
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onDropControl();
     }
 }
