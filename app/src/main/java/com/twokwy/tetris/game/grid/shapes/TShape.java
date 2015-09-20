@@ -1,54 +1,36 @@
 package com.twokwy.tetris.game.grid.shapes;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.twokwy.tetris.game.grid.Coordinate;
-import com.twokwy.tetris.game.grid.TileGrid;
 import com.twokwy.tetris.game.grid.tile.Tile;
 
 /**
  * Created by anita on 18/09/2015.
  */
-public class TShape implements TetrisShape {
-
-    private static final ImmutableSet<Coordinate> LOCAL_COORDINATES = ImmutableSet.of(
-            new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(2, 0),
-                                  new Coordinate(1, 1));
-
-    private final Tile.Color mColor;
+public class TShape extends RotatableShape {
 
     public TShape(Tile.Color color) {
-        mColor = color;
-
+        super(color);
     }
 
     @Override
-    public void rotateClockwise() {
-        return; // rotation has no effect
-    }
+    protected ImmutableList<ImmutableSet<Coordinate>> getOrientations() {
+        return ImmutableList.of(ImmutableSet.of(
+                        new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(2, 0),
+                        new Coordinate(1, 1)),
+                ImmutableSet.of(
+                        new Coordinate(1, 0),
+                        new Coordinate(0, 1), new Coordinate(1, 1),
+                        new Coordinate(1, 2)),
 
-    @Override
-    public Tile.Color getColor() {
-        return mColor;
-    }
+                ImmutableSet.of(
+                        new Coordinate(1, 0),
+                        new Coordinate(0, 1), new Coordinate(1, 1), new Coordinate(2, 1)),
 
-    @Override
-    public boolean addToGridAtLocation(final TileGrid grid, int x, int y) {
-        // check space is available first.
-        for (Coordinate coord : LOCAL_COORDINATES) {
-            if (!grid.isLocationAvailable(x + coord.getX(), y + coord.getY())) {
-                return false;
-            }
-        }
-        for (Coordinate coord : LOCAL_COORDINATES) {
-            grid.occupyTileAtPosition(x + coord.getX(), y + coord.getY(), mColor);
-        }
-        return true;
-    }
-
-    @Override
-    public void removeFromGridAtLocation(TileGrid grid, int x, int y) {
-        for (Coordinate coord : LOCAL_COORDINATES) {
-                grid.clearTileAtPosition(x + coord.getX(), y + coord.getY());
-        }
+                ImmutableSet.of(
+                        new Coordinate(1, 0),
+                        new Coordinate(1, 1), new Coordinate(2, 1),
+                        new Coordinate(1, 2)));
     }
 }

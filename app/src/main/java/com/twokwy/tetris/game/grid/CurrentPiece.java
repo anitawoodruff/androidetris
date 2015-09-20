@@ -9,4 +9,8 @@ public interface CurrentPiece {
     boolean moveLeftByOneTile(TileGrid tileGrid);
 
     boolean moveRightByOneTile(TileGrid tileGrid);
+
+    void rotateLeft(TileGrid grid);
+
+    void rotateRight(TileGrid grid);
 }

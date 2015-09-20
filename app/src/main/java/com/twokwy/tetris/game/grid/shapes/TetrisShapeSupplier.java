@@ -17,7 +17,10 @@ public class TetrisShapeSupplier implements Supplier<TetrisShape> {
 
     private static enum SupplyableTetrisShape {
         SQUARE,
-        T_SHAPE
+        T_SHAPE,
+        LONG,
+        S_SHAPE,
+        L_SHAPE
     }
 
     public TetrisShapeSupplier() {
@@ -40,6 +43,12 @@ public class TetrisShapeSupplier implements Supplier<TetrisShape> {
                 return new Square(color);
             case T_SHAPE:
                 return new TShape(color);
+            case LONG:
+                return new LongShape(color);
+            case L_SHAPE:
+                return new LShape(color);
+            case S_SHAPE:
+                return new SShape(color);
         }
         return null; // shouldn't occur
     }

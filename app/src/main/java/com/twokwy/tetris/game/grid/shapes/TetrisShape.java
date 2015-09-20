@@ -8,11 +8,13 @@ import com.twokwy.tetris.game.grid.TileGrid;
  */
 public interface TetrisShape {
 
-    void rotateClockwise();
-
     Tile.Color getColor();
 
     boolean addToGridAtLocation(TileGrid grid, int x, int y);
 
     void removeFromGridAtLocation(TileGrid tileGrid, int mXLocation, int mYLocation);
+
+    boolean rotateLeft(TileGrid grid, int x, int y);
+
+    boolean rotateRight(TileGrid grid, int x, int y);
 }

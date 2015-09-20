@@ -48,6 +48,16 @@ public class TileGridImpl implements TileGrid {
         public boolean moveRightByOneTile(TileGrid tileGrid) {
             return false;
         }
+
+        @Override
+        public void rotateLeft(TileGrid grid) {
+
+        }
+
+        @Override
+        public void rotateRight(TileGrid grid) {
+
+        }
     }
 
     @Override
@@ -97,12 +107,7 @@ public class TileGridImpl implements TileGrid {
 
     @Override
     public boolean moveCurrentShapeDown() {
-        if (!mCurrentPiece.moveDownByOneTile(this)) {
-            // it's reached the bottom, add a new shape at the top
-            insertNewShapeAtTop();
-            return false;
-        }
-        return true;
+        return mCurrentPiece.moveDownByOneTile(this);
     }
 
     @Override
@@ -117,16 +122,20 @@ public class TileGridImpl implements TileGrid {
 
     @Override
     public void dropCurrentPiece() {
-
+        boolean hitTheBottom = false;
+        while (!hitTheBottom) {
+            hitTheBottom = !moveCurrentShapeDown();
+        }
     }
 
     @Override
     public void rotateCurrentPieceLeft() {
-
+        mCurrentPiece.rotateLeft(this);
     }
 
     @Override
     public void rotateCurrentPieceRight() {
+        mCurrentPiece.rotateRight(this);
 
     }
     @Override

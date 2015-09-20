@@ -78,7 +78,5 @@ public class TileGridFactoryTest extends TestCase {
         assertEquals(120, bounds.right);
         assertEquals(20, bounds.top);
         assertEquals(40, bounds.bottom);
-
-        // check la
     }
 }

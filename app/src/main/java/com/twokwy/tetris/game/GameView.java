@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -27,6 +28,7 @@ public class GameView extends View {
 
     private RefreshHandler mRefreshCurrentPieceHandler = new RefreshHandler();
     private int mCurrentTick = 500;
+    private int mCurrentScore = 0;
 
     class RefreshHandler extends Handler {
 
@@ -114,24 +116,35 @@ public class GameView extends View {
     }
 
     private void updateCurrentPieceAndScheduleNextUpdate() {
-        mTileGrid.moveCurrentShapeDown();
+        if (!mTileGrid.moveCurrentShapeDown()) {
+            // it's reached the bottom, add a new shape at the top
+            final boolean inserted = mTileGrid.insertNewShapeAtTop();
+            if (!inserted) {
+                // could not insert, so we must have reached the top
+                mGameOverListener.gameOver(mCurrentScore); // TODO pass score
+                return;
+            } else {
+                mCurrentScore += 100; // give em some points
+                Activity parentActivity = (Activity) getContext();
+                final TextView scoreTextView = (TextView) parentActivity.findViewById(R.id.currentScore);
+                scoreTextView.setText("" + mCurrentScore);
+            }
+        }
         mRefreshCurrentPieceHandler.sleep(mCurrentTick);
     }
 
     public void onStartGame() {
-        // TODO use a shape generator
-        if (!mTileGrid.insertNewShapeAtTop()) {
-            // could not insert, so we must have reached the top
-            mGameOverListener.gameOver(0); // TODO pass score
-        } else {
-            invalidate();
-        }
+        mTileGrid.insertNewShapeAtTop();
         updateCurrentPieceAndScheduleNextUpdate();
     }
 
     public void onDropControl() {
         mTileGrid.dropCurrentPiece();
         invalidate();
+    }
+
+    public void onDownControl() {
+
     }
 
     public void onMoveLeftControl() {

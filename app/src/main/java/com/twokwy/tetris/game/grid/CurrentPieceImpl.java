@@ -38,6 +38,16 @@ public class CurrentPieceImpl implements CurrentPiece {
         return move(tileGrid, 1, 0);
     }
 
+    @Override
+    public void rotateLeft(TileGrid grid) {
+        mShape.rotateLeft(grid, mXLocation, mYLocation);
+    }
+
+    @Override
+    public void rotateRight(TileGrid grid) {
+        mShape.rotateRight(grid, mXLocation, mYLocation);
+    }
+
     private boolean move(TileGrid tileGrid, int xIncrement, int yIncrement) {
         mShape.removeFromGridAtLocation(tileGrid, mXLocation, mYLocation);
         if (mShape.addToGridAtLocation(tileGrid, mXLocation + xIncrement, mYLocation + yIncrement)) {

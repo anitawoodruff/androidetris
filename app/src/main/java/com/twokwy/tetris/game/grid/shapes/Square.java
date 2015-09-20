@@ -17,11 +17,6 @@ public class Square implements TetrisShape {
     }
 
     @Override
-    public void rotateClockwise() {
-        return; // rotation has no effect
-    }
-
-    @Override
     public Tile.Color getColor() {
         return mColor;
     }
@@ -52,5 +47,17 @@ public class Square implements TetrisShape {
             }
         }
 
+    }
+
+    @Override
+    public boolean rotateLeft(TileGrid grid, int x, int y) {
+        // nothing happens
+        return true;
+    }
+
+    @Override
+    public boolean rotateRight(TileGrid grid, int x, int y) {
+        // nothing happens
+        return true;
     }
 }
