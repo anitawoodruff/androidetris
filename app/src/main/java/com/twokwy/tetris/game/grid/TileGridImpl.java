@@ -62,7 +62,7 @@ public class TileGridImpl implements TileGrid {
         return mTiles.get(index);
     }
 
-    private int indexFromLocation(int x, int y) {
+    int indexFromLocation(int x, int y) {
         return mWidthInTiles * y + x;
     }
 

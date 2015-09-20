@@ -24,8 +24,8 @@ import static org.mockito.Mockito.when;
 
 public class TileGridImplTest {
 
-    private static final int WIDTH = 6;
-    private static final int HEIGHT = 3;
+    private static final int WIDTH = 10;
+    private static final int HEIGHT = 20;
     private static final int TOTAL_TILES = WIDTH * HEIGHT;
     private TileGridImpl mTileGrid;
     private List<PositionedTile> mMockTiles;
@@ -80,6 +80,9 @@ public class TileGridImplTest {
         PositionedTile secondTile = mTileGrid.getTileAtPosition(1, 0);
         assertEquals(mMockTiles.get(1), secondTile);
 
+        // first tile on 2nd row
+        assertEquals(mMockTiles.get(WIDTH), mTileGrid.getTileAtPosition(0, 1));
+
         PositionedTile penultimateTile = mTileGrid.getTileAtPosition(WIDTH-2, HEIGHT-1);
         assertEquals(mMockTiles.get(TOTAL_TILES-2), penultimateTile);
 
@@ -93,11 +96,19 @@ public class TileGridImplTest {
     }
 
     @Test
+    public void testIndexFromLocation() {
+        TileGridImpl tileGrid = new TileGridImpl(10, 20, mMockTiles, null);
+        assertEquals(0, tileGrid.indexFromLocation(0, 0));
+        assertEquals(10, tileGrid.indexFromLocation(0, 1));
+        assertEquals(199, tileGrid.indexFromLocation(9, 19));
+    }
+
+    @Test
     public void testInsertNewShapeAtTop() {
         // set up to always insert a square
         TetrisShapeSupplier mockShapeSupplier = mock(TetrisShapeSupplier.class);
         when(mockShapeSupplier.get()).thenReturn(new Square(Tile.Color.RED));
-        TileGridImpl tileGrid = new TileGridImpl(WIDTH, HEIGHT, mMockTiles, mockShapeSupplier);
+        TileGridImpl tileGrid = new TileGridImpl(6, 3, mMockTiles.subList(0, 18), mockShapeSupplier);
 
         boolean result = tileGrid.insertNewShapeAtTop();
         assertTrue(result);

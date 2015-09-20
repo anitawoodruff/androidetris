@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class TileGridFactory {
 
+    private static final int DEFAULT_NUMBER_OF_ROWS = 20;
+    private static final int DEFAULT_NUMBER_OF_COLUMNS = 10;
+
     public static TileGrid createEmptyTileGrid() {
         return new TileGrid() {
 
@@ -84,30 +87,35 @@ public class TileGridFactory {
      * @param w width (px) available for the tile grid
      * @param h height (px) available for the tile grid
      */
-    public static TileGrid createToFillWidthAndHeight(int tileSize, int w, int h) {
-        int tilesPerRow = (int) Math.floor(w / tileSize);
-        int numberOfRows = (int) Math.floor(h / tileSize);
+    public static TileGrid createToFillWidthAndHeight(int w, int h) {
+        System.out.println("Creating with width="+w+", height="+h);
+        final int maxTileHeight = (int) Math.floor(h / DEFAULT_NUMBER_OF_ROWS);
+        final int maxTileWidth = (int) Math.floor(w / DEFAULT_NUMBER_OF_COLUMNS);
 
-        int xOffset = (w - (tileSize * tilesPerRow)) / 2;
-        int yOffset = (h - (tileSize * numberOfRows)) / 2;
+        final int tileSize = Math.min(maxTileHeight, maxTileWidth);
 
-        List<PositionedTile> tiles = createListOfEmptyTilesForGrid(tileSize,
-                tilesPerRow, numberOfRows, xOffset, yOffset);
+        int xOffset = (w - (tileSize * DEFAULT_NUMBER_OF_COLUMNS)) / 2;
+        int yOffset = (h - (tileSize * DEFAULT_NUMBER_OF_ROWS)) / 2;
 
-        return new TileGridImpl(tilesPerRow, numberOfRows, tiles, new TetrisShapeSupplier());
+        System.out.println("tileSize = " + tileSize + ", xOffset = " + xOffset + ", yOffset = " + yOffset);
+        List<PositionedTile> tiles = createListOfEmptyTilesForGrid(
+                tileSize, DEFAULT_NUMBER_OF_COLUMNS, DEFAULT_NUMBER_OF_ROWS, xOffset, yOffset);
+
+        return new TileGridImpl(DEFAULT_NUMBER_OF_COLUMNS, DEFAULT_NUMBER_OF_ROWS, tiles, new TetrisShapeSupplier());
     }
 
-    static List<PositionedTile> createListOfEmptyTilesForGrid(
-            int tileSize, int tilesPerRow, int numberOfRows, int xOffset, int yOffset) {
-        final int totalTiles = tilesPerRow * numberOfRows;
+    static List<PositionedTile> createListOfEmptyTilesForGrid(int tileSize,
+                                                              int widthInTiles, int heightInTiles,
+                                                              int xOffset, int yOffset) {
+        final int totalTiles = widthInTiles * heightInTiles;
         List<PositionedTile> tiles = new ArrayList<>(totalTiles);
         for (int i = 0; i < totalTiles; i++) {
-            final int colIndex = i % tilesPerRow;
-            final int rowIndex = i / numberOfRows;
+            final int x = i % widthInTiles;
+            final int y = i / widthInTiles;
 
-            final int leftBound = xOffset + colIndex * tileSize;
+            final int leftBound = xOffset + x * tileSize;
             final int rightBound = leftBound + tileSize;
-            final int topBound = yOffset + rowIndex * tileSize;
+            final int topBound = yOffset + y * tileSize;
             final int bottomBound = topBound + tileSize;
 
             final Rect bounds = new Rect(leftBound, topBound, rightBound, bottomBound);

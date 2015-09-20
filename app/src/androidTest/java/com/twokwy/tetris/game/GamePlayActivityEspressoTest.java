@@ -74,21 +74,13 @@ public class GamePlayActivityEspressoTest {
     }
 
     @Test
-    public void startsHighScoresActivityWhenEndGameButtonIsClicked() {
-        onView(withText("||")).perform(click());
-        onView(withText("End Game")).perform(click());
-
-        intended(hasComponent(HighScoresActivity.class.getName()));
-    }
-
-    @Test
     public void showsEndGameDialogWhenUserMashesDrop() {
-        onView(withText("v")).perform(click());
+        onView(withText("drop")).perform(click());
         for (int i = 0; i < 20; i++) {
             try {
-                onView(withText("v")).perform(click());
+                onView(withText("drop")).perform(click());
             } catch (NoMatchingViewException e) {
-                // That's ok, game over dialog msut be showing already
+                // That's ok, game over dialog must be showing already
             }
         }
 

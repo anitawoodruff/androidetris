@@ -2,7 +2,6 @@ package com.twokwy.tetris.game;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -23,7 +22,6 @@ import com.twokwy.tetris.game.grid.tile.Tile;
 
 public class GameView extends View {
 
-    private final int mTileSize;
     private TileGrid mTileGrid;
     private GameOverListener mGameOverListener;
 
@@ -46,17 +44,10 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GameView);
-        mTileSize = a.getDimensionPixelSize(R.styleable.GameView_tileSize, 24);
-        a.recycle();
-        init();
     }
 
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GameView);
-        mTileSize = a.getDimensionPixelSize(R.styleable.GameView_tileSize, 24);
-        a.recycle();
     }
 
     private void init() {
@@ -72,7 +63,7 @@ public class GameView extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mTileGrid = TileGridFactory.createToFillWidthAndHeight(mTileSize, w, h);
+        mTileGrid = TileGridFactory.createToFillWidthAndHeight(w, h);
     }
 
     @Override

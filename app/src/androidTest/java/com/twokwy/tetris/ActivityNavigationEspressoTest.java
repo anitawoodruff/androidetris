@@ -28,11 +28,19 @@ public class ActivityNavigationEspressoTest {
     @Test
     public void cannotGoBackToGameAfterEnded() {
         onView(withText("Play")).perform(click());
-        onView(withText("||")).perform(click());
-        onView(withText("End Game")).perform(click());
-        onView(withText("Tetris High Scores")).check(matches(isDisplayed()));
+
+        // FIXME When there is an easy way to trigger game over / check if in same game
 
         pressBack();
+
+        onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void startsTopMenuActivityWhenEndGameButtonIsClicked() {
+        onView(withText("Play")).perform(click());
+        onView(withText("||")).perform(click());
+        onView(withText("End Game")).perform(click());
 
         onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
     }
@@ -45,15 +53,5 @@ public class ActivityNavigationEspressoTest {
         onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
     }
 
-    @Test
-    public void upReturnsToTopMenuAfterGameEnded() {
-        onView(withText("Play")).perform(click());
-        onView(withText("||")).perform(click());
-        onView(withText("End Game")).perform(click());
-
-        onView(withContentDescription("Navigate up")).perform(click());
-
-        onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
-    }
 
 }
