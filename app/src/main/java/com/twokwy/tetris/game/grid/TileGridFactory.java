@@ -78,6 +78,11 @@ public class TileGridFactory {
             public void rotateCurrentPieceRight() {
 
             }
+
+            @Override
+            public int removeFullRowsAtBottom() {
+                return 0;
+            }
         };
     }
 

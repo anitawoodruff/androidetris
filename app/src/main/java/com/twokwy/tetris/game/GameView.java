@@ -117,17 +117,20 @@ public class GameView extends View {
 
     private void updateCurrentPieceAndScheduleNextUpdate() {
         if (!mTileGrid.moveCurrentShapeDown()) {
-            // it's reached the bottom, add a new shape at the top
+            // it's reached the bottom, check for full rows & add a new shape at the top
+            final int rowsRemoved = mTileGrid.removeFullRowsAtBottom();
+            if (rowsRemoved > 0) {
+                // give em some points
+                mCurrentScore += rowsRemoved * 5;
+                Activity parentActivity = (Activity) getContext();
+                final TextView scoreTextView = (TextView) parentActivity.findViewById(R.id.currentScore);
+                scoreTextView.setText("" + mCurrentScore);
+            }
             final boolean inserted = mTileGrid.insertNewShapeAtTop();
             if (!inserted) {
                 // could not insert, so we must have reached the top
                 mGameOverListener.gameOver(mCurrentScore); // TODO pass score
                 return;
-            } else {
-                mCurrentScore += 100; // give em some points
-                Activity parentActivity = (Activity) getContext();
-                final TextView scoreTextView = (TextView) parentActivity.findViewById(R.id.currentScore);
-                scoreTextView.setText("" + mCurrentScore);
             }
         }
         mRefreshCurrentPieceHandler.sleep(mCurrentTick);

@@ -1,5 +1,6 @@
 package com.twokwy.tetris.game.grid;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.twokwy.tetris.game.grid.shapes.TetrisShape;
 import com.twokwy.tetris.game.grid.shapes.TetrisShapeSupplier;
@@ -144,6 +145,61 @@ public class TileGridImpl implements TileGrid {
         mCurrentPiece.rotateRight(this);
 
     }
+
+    @Override
+    public int removeFullRowsAtBottom() {
+        final int rowsForRemoval = getNumberOfRowsToRemove();
+        if (rowsForRemoval > 0) {
+            shiftRowsDownBy(rowsForRemoval);
+        }
+        return rowsForRemoval;
+    }
+
+    private int getNumberOfRowsToRemove() {
+        int rowsToRemove = 0;
+        for (int y = mHeightInTiles - 1; y >= 0; y--) {
+            for (int x = 0; x < mWidthInTiles; x++) {
+                if (!getTileAtPosition(x, y).isOccupied()) {
+                    // no more full rows to remove
+                    System.out.println("early termination at x=" + x + ", y=" + y);
+                    return rowsToRemove;
+                }
+            }
+            rowsToRemove++;
+        }
+        return rowsToRemove;
+    }
+
+    private void shiftRowsDownBy(int numberOfRowsToShiftBy) {
+        // shift rows down by n, starting n rows from the bottom
+        for (int y = mHeightInTiles - 1 - numberOfRowsToShiftBy; y >= 0; y--) {
+            for (int x = 0; x < mWidthInTiles; x++) {
+                // TODO This isn't great
+                final PositionedTile tileToCopy = getTileAtPosition(x, y);
+                final Optional<Tile.Color> color = tileToCopy.getColor();
+
+                final PositionedTile destinationTile = getTileAtPosition(x, y + numberOfRowsToShiftBy);
+                if (color != null && color.isPresent()) {
+                    destinationTile.occupy(color.get());
+                } else {
+                    destinationTile.clear();
+                }
+            }
+        }
+        // clear rows at the top
+        for (int y = 0; y < numberOfRowsToShiftBy; y++) {
+            for (int x = 0; x < mWidthInTiles; x++) {
+                getTileAtPosition(x, y).clear();
+            }
+        }
+    }
+
+    private void clearRowAtYIndex(int y) {
+        for (int x = 0; x < mWidthInTiles; x++) {
+            getTileAtPosition(x, y).clear();
+        }
+    }
+
     @Override
     public void clearTileAtPosition(int x, int y) {
         getTileAtPosition(x, y).clear();

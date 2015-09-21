@@ -52,4 +52,10 @@ public interface TileGrid {
     void rotateCurrentPieceLeft();
 
     void rotateCurrentPieceRight();
+
+    /**
+     * Remove any full rows and shift any occupied rows above the removed rows down.
+     * @return the number of rows removed.
+     */
+    int removeFullRowsAtBottom();
 }
