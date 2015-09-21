@@ -123,8 +123,14 @@ public class TileGridImpl implements TileGrid {
     @Override
     public void dropCurrentPiece() {
         boolean hitTheBottom = false;
+        int i = 0;
         while (!hitTheBottom) {
             hitTheBottom = !moveCurrentShapeDown();
+            i++;
+            if (i > mHeightInTiles) {
+                throw new IllegalStateException("Current shape moved down by " + i + " tiles, but" +
+                        " didn't yet hit the bottom. Exception thrown to escape endless loop.");
+            }
         }
     }
 
