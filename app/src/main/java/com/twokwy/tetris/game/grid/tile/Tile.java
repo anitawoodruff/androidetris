@@ -8,7 +8,7 @@ import com.google.common.base.Optional;
 public class Tile {
 
     public enum Color {
-        RED, GREEN, BLUE, YELLOW
+        RED, GREEN, BLUE, YELLOW, CYAN, MAGENTA
     }
 
     private Optional<Color> mColor;

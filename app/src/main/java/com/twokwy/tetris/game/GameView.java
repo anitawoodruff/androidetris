@@ -92,12 +92,12 @@ public class GameView extends View {
         }
     }
 
-    private ShapeDrawable createTileDrawable(Optional<Tile.Color> tileColor, Rect bounds) {
+    private ShapeDrawable createTileDrawable(Optional<Tile.Color> tileColor, final Rect bounds) {
         final ShapeDrawable tileDrawable = new ShapeDrawable(new RectShape());
         final int colorResId = tileColor.isPresent() ? translateToResId(tileColor.get())
                 : R.color.grey;
         tileDrawable.getPaint().setColor(getResources().getColor(colorResId));
-        tileDrawable.setBounds(bounds);
+        tileDrawable.setBounds(bounds.left, bounds.top + 1, bounds.right - 1, bounds.bottom);
         return tileDrawable;
     }
 
@@ -111,6 +111,10 @@ public class GameView extends View {
                 return R.color.green;
             case YELLOW:
                 return R.color.yellow;
+            case CYAN:
+                return R.color.cyan;
+            case MAGENTA:
+                return R.color.magenta;
         }
         return -1; // shouldn't happen
     }

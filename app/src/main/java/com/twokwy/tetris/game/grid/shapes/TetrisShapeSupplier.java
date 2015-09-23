@@ -20,7 +20,8 @@ public class TetrisShapeSupplier implements Supplier<TetrisShape> {
         T_SHAPE,
         LONG,
         S_SHAPE,
-        L_SHAPE
+        L_SHAPE,
+        Z_SHAPE
     }
 
     public TetrisShapeSupplier() {
@@ -49,6 +50,8 @@ public class TetrisShapeSupplier implements Supplier<TetrisShape> {
                 return new LShape(color);
             case S_SHAPE:
                 return new SShape(color);
+            case Z_SHAPE:
+                return new ZShape(color);
         }
         return null; // shouldn't occur
     }
