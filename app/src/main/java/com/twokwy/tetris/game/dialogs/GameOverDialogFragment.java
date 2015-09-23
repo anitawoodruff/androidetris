@@ -27,7 +27,9 @@ public class GameOverDialogFragment extends DialogFragment {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = createGameOverDialogView(getActivity(), score);
         builder.setView(view);
-        return builder.create();
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
     }
 
     private View createGameOverDialogView(final Activity activity, final int score) {

@@ -38,7 +38,9 @@ public class PauseGameDialogFragment extends DialogFragment {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = createPauseDialogView(getActivity(), this, mListener);
         builder.setView(view);
-        return builder.create();
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
     }
 
     private static View createPauseDialogView(final Activity activity,
