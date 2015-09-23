@@ -80,7 +80,7 @@ public class TileGridFactory {
             }
 
             @Override
-            public int removeFullRowsAtBottom() {
+            public int removeFullRows() {
                 return 0;
             }
         };

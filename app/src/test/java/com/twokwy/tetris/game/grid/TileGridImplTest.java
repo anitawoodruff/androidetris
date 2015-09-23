@@ -146,19 +146,51 @@ public class TileGridImplTest {
 
     @Test
     public void testRemoveFullRows_removesNoneFromEmptyGrid() {
-        final int rowsRemoved = mTileGrid.removeFullRowsAtBottom();
+        // create real tiles that can be checked later.
+        List<PositionedTile> originalTiles = TileGridFactory.createListOfEmptyTilesForGrid(
+                10, WIDTH, HEIGHT, 0, 0);
+
+        TileGridImpl tileGrid = new TileGridImpl(WIDTH, HEIGHT, originalTiles, null);
+        final int rowsRemoved = tileGrid.removeFullRows();
 
         // check correct number of rows removed
-        assertEquals("Wrong number of rows removed", 0, rowsRemoved);
+        assertEquals("Expected to remove no rows", 0, rowsRemoved);
 
         // check total tiles is still the same
         final List<PositionedTile> tiles = mTileGrid.getPositionedTiles();
         assertEquals(TOTAL_TILES, tiles.size());
 
-        // check no tiles cleared
+        // check tiles all as they were
         for (int i = 0; i < TOTAL_TILES; i++) {
-            PositionedTile mockPositionedTile = mMockTiles.get(i);
-            verify(mockPositionedTile, never()).clear();
+            assertEquals(originalTiles.get(i).isOccupied(), tiles.get(i).isOccupied());
+        }
+    }
+
+    @Test
+    public void testRemoveFullRows_noFullRowsButSomeOccupiedInBottomRow() {
+        // create real tiles that can be checked later.
+        List<PositionedTile> originalTiles = TileGridFactory.createListOfEmptyTilesForGrid(
+                10, WIDTH, HEIGHT, 0, 0);
+
+        // occupy first half of bottom row
+        for (int i = TOTAL_TILES - WIDTH; i < TOTAL_TILES - WIDTH / 2; i++) {
+            PositionedTile positionedTile = originalTiles.get(i);
+            positionedTile.occupy(Tile.Color.RED);
+        }
+
+        TileGridImpl tileGrid = new TileGridImpl(WIDTH, HEIGHT, originalTiles, null);
+        final int rowsRemoved = tileGrid.removeFullRows();
+
+        // check correct number of rows removed
+        assertEquals("Expected to remove no rows", 0, rowsRemoved);
+
+        // check total tiles is still the same
+        final List<PositionedTile> tiles = mTileGrid.getPositionedTiles();
+        assertEquals(TOTAL_TILES, tiles.size());
+
+        // check tiles unchanged
+        for (int i = 0; i < TOTAL_TILES; i++) {
+            assertEquals(false, tiles.get(i).isOccupied());
         }
     }
 
@@ -175,7 +207,7 @@ public class TileGridImplTest {
 
         TileGridImpl tileGrid = new TileGridImpl(WIDTH, HEIGHT, originalTiles, null);
 
-        final int rowsRemoved = tileGrid.removeFullRowsAtBottom();
+        final int rowsRemoved = tileGrid.removeFullRows();
 
         // check correct number of rows removed
         assertEquals( "Wrong number of rows removed", 1, rowsRemoved);
@@ -215,7 +247,7 @@ public class TileGridImplTest {
         assertEquals(true, tileGrid.getTileAtPosition(WIDTH - 1, HEIGHT - 3).isOccupied());
         assertEquals(true, tileGrid.getTileAtPosition(0, HEIGHT - 2).isOccupied());
 
-        final int rowsRemoved = tileGrid.removeFullRowsAtBottom();
+        final int rowsRemoved = tileGrid.removeFullRows();
 
         // check correct number of rows removed
         assertEquals( "Wrong number of rows removed", 1, rowsRemoved);
@@ -254,7 +286,7 @@ public class TileGridImplTest {
 
         TileGridImpl tileGrid = new TileGridImpl(WIDTH, HEIGHT, originalTiles, null);
 
-        final int rowsRemoved = tileGrid.removeFullRowsAtBottom();
+        final int rowsRemoved = tileGrid.removeFullRows();
 
         // check correct number of rows removed
         assertEquals( "Wrong number of rows removed", 2, rowsRemoved);
@@ -266,6 +298,117 @@ public class TileGridImplTest {
         // check all tiles now unoccupied
         for (int i = 0; i < TOTAL_TILES; i++) {
             assertEquals(false, newTiles.get(i).isOccupied());
+        }
+    }
+
+    @Test
+    public void testRemoveFullRows_fullPenultimateRow_allEmptyAbove() {
+        // create real tiles that can be checked later.
+        List<PositionedTile> originalTiles = TileGridFactory.createListOfEmptyTilesForGrid(
+                10, WIDTH, HEIGHT, 0, 0);
+
+        // fill the penultimate row
+        for (int i = TOTAL_TILES - 2 * WIDTH; i < TOTAL_TILES - WIDTH; i++) {
+            PositionedTile positionedTile = originalTiles.get(i);
+            positionedTile.occupy(Tile.Color.RED);
+        }
+        // fill a couple of tiles in the last row:
+        // last tile:
+        originalTiles.get(TOTAL_TILES - 1).occupy(Tile.Color.BLUE);
+        // first tile on last row:
+        originalTiles.get(TOTAL_TILES - WIDTH).occupy(Tile.Color.GREEN);
+
+        TileGridImpl tileGrid = new TileGridImpl(WIDTH, HEIGHT, originalTiles, null);
+
+        final int rowsRemoved = tileGrid.removeFullRows();
+
+        // check correct number of rows removed
+        assertEquals( "Wrong number of rows removed", 1, rowsRemoved);
+
+        // check total tiles is still the same
+        final List<PositionedTile> newTiles = tileGrid.getPositionedTiles();
+        assertEquals(TOTAL_TILES, newTiles.size());
+
+        // check all tiles above bottom row remain unoccupied
+        for (int i = 0; i < TOTAL_TILES - WIDTH; i++) {
+            assertEquals(false, newTiles.get(i).isOccupied());
+        }
+        // check first and last in bottom row are occupied
+        assertEquals(true, newTiles.get(TOTAL_TILES - WIDTH).isOccupied());
+        assertEquals(true, newTiles.get(TOTAL_TILES - 1).isOccupied());
+
+        // check other tiles in bottom row are unoccupied
+        for (int i = TOTAL_TILES - WIDTH + 1; i < TOTAL_TILES - 1; i++) {
+            assertEquals(false, newTiles.get(i).isOccupied());
+        }
+    }
+
+    @Test
+    public void testRemoveFullRows_twoFullFloatingRows_notEmptyAbove() {
+        // create real tiles that can be checked later.
+        List<PositionedTile> originalTiles = TileGridFactory.createListOfEmptyTilesForGrid(
+                10, WIDTH, HEIGHT, 0, 0);
+
+        // fill a couple of tiles in the last row:
+        // last tile:
+        originalTiles.get(TOTAL_TILES - 1).occupy(Tile.Color.BLUE);
+        // first tile on last row:
+        originalTiles.get(TOTAL_TILES - WIDTH).occupy(Tile.Color.GREEN);
+
+        // fill the penultimate row
+        fillRowBeginningAtIndex(TOTAL_TILES - 2 * WIDTH, originalTiles);
+
+        // fill a couple on the penpenultimate row
+        // 2nd tiles:
+        originalTiles.get(TOTAL_TILES - 3 * WIDTH + 1).occupy(Tile.Color.BLUE);
+
+        // 3rd tile:
+        originalTiles.get(TOTAL_TILES - 3 * WIDTH + 2).occupy(Tile.Color.BLUE);
+
+        // fill the row above that
+        fillRowBeginningAtIndex(TOTAL_TILES - 4 * WIDTH, originalTiles);
+
+        // fill one tile on the row above
+        originalTiles.get(TOTAL_TILES - 5 * WIDTH + WIDTH / 2).occupy(Tile.Color.BLUE);
+
+
+        TileGridImpl tileGrid = new TileGridImpl(WIDTH, HEIGHT, originalTiles, null);
+
+        // check initial state:
+        assertEquals(true, tileGrid.getTileAtPosition(0, HEIGHT - 1).isOccupied());
+        assertEquals(true, tileGrid.getTileAtPosition(WIDTH - 1, HEIGHT - 1).isOccupied());
+        assertEquals(true, tileGrid.getTileAtPosition(1, HEIGHT - 3).isOccupied());
+        assertEquals(true, tileGrid.getTileAtPosition(2, HEIGHT - 3).isOccupied());
+        assertEquals(true, tileGrid.getTileAtPosition(WIDTH / 2, HEIGHT - 5).isOccupied());
+
+        final int rowsRemoved = tileGrid.removeFullRows();
+
+        // check correct number of rows removed
+        assertEquals( "Wrong number of rows removed", 2, rowsRemoved);
+
+        // check total tiles is still the same
+        final List<PositionedTile> newTiles = tileGrid.getPositionedTiles();
+        assertEquals(TOTAL_TILES, newTiles.size());
+
+        // check first and last in bottom row are still occupied
+        assertEquals(true, newTiles.get(TOTAL_TILES - WIDTH).isOccupied());
+        assertEquals(true, newTiles.get(TOTAL_TILES - 1).isOccupied());
+
+        // check just 2nd and 3rd in penultimate row are now occupied
+        assertEquals(false, newTiles.get(TOTAL_TILES - 2 * WIDTH).isOccupied());
+        assertEquals(true, newTiles.get(TOTAL_TILES - 2 * WIDTH + 1).isOccupied());
+        assertEquals(true, newTiles.get(TOTAL_TILES - 2 * WIDTH + 2).isOccupied());
+        for (int i = TOTAL_TILES - 2 * WIDTH + 3; i < TOTAL_TILES - WIDTH; i++) {
+            assertEquals("Expect empty at position: " + i, false, newTiles.get(i).isOccupied());
+        }
+
+        // TODO bored now
+    }
+
+    private static void fillRowBeginningAtIndex(int index, List<PositionedTile> tiles) {
+        for (int i = index; i < index + WIDTH; i++) {
+            PositionedTile positionedTile = tiles.get(i);
+            positionedTile.occupy(Tile.Color.RED);
         }
     }
 }

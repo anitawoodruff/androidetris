@@ -11,7 +11,11 @@ public class Tile {
         RED, GREEN, BLUE, YELLOW
     }
 
-    private Optional<Color> mColor = Optional.absent();
+    private Optional<Color> mColor;
+
+    public Tile() {
+        mColor = Optional.absent();
+    }
 
     /**
      * Occupy this tile with the given color.
@@ -30,5 +34,22 @@ public class Tile {
 
     public Optional<Color> getColor() {
         return mColor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tile tile = (Tile) o;
+
+        if (!mColor.equals(tile.mColor)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return mColor.hashCode();
     }
 }

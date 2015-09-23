@@ -39,4 +39,24 @@ public class PositionedTile {
     public void clear() {
         mTile.clear();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PositionedTile that = (PositionedTile) o;
+
+        if (!mBounds.equals(that.mBounds)) return false;
+        if (!mTile.equals(that.mTile)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mTile.hashCode();
+        result = 31 * result + mBounds.hashCode();
+        return result;
+    }
 }

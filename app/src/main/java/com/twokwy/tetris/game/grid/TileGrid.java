@@ -57,5 +57,5 @@ public interface TileGrid {
      * Remove any full rows and shift any occupied rows above the removed rows down.
      * @return the number of rows removed.
      */
-    int removeFullRowsAtBottom();
+    int removeFullRows();
 }

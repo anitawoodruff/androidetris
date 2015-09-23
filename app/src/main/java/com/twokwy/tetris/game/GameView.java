@@ -118,7 +118,7 @@ public class GameView extends View {
     private void updateCurrentPieceAndScheduleNextUpdate() {
         if (!mTileGrid.moveCurrentShapeDown()) {
             // it's reached the bottom, check for full rows & add a new shape at the top
-            final int rowsRemoved = mTileGrid.removeFullRowsAtBottom();
+            final int rowsRemoved = mTileGrid.removeFullRows();
             if (rowsRemoved > 0) {
                 // give em some points
                 mCurrentScore += rowsRemoved * 5;

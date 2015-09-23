@@ -146,16 +146,7 @@ public class TileGridImpl implements TileGrid {
 
     }
 
-    @Override
-    public int removeFullRowsAtBottom() {
-        final int rowsForRemoval = getNumberOfRowsToRemove();
-        if (rowsForRemoval > 0) {
-            shiftRowsDownBy(rowsForRemoval);
-        }
-        return rowsForRemoval;
-    }
-
-    private int getNumberOfRowsToRemove() {
+    private int getNumberOfRowsToRemoveAtBottom() {
         int rowsToRemove = 0;
         for (int y = mHeightInTiles - 1; y >= 0; y--) {
             for (int x = 0; x < mWidthInTiles; x++) {
@@ -170,9 +161,24 @@ public class TileGridImpl implements TileGrid {
         return rowsToRemove;
     }
 
-    private void shiftRowsDownBy(int numberOfRowsToShiftBy) {
+    @Override
+    public int removeFullRows() {
+        int numberOfRowsToShiftBy = 0;
         // shift rows down by n, starting n rows from the bottom
-        for (int y = mHeightInTiles - 1 - numberOfRowsToShiftBy; y >= 0; y--) {
+        for (int y = mHeightInTiles - 1; y >= 0; y--) {
+            boolean rowToBeCopiedIsFull = true;
+            for (int x = 0; x < mWidthInTiles; x++) {
+                // first check if row to be copied is full too
+                if (!getTileAtPosition(x, y).isOccupied()) {
+                    rowToBeCopiedIsFull = false;
+                    break;
+                }
+            }
+            if (rowToBeCopiedIsFull) {
+                numberOfRowsToShiftBy++;
+                continue; // try the row above
+            }
+            // now we copy
             for (int x = 0; x < mWidthInTiles; x++) {
                 // TODO This isn't great
                 final PositionedTile tileToCopy = getTileAtPosition(x, y);
@@ -192,12 +198,7 @@ public class TileGridImpl implements TileGrid {
                 getTileAtPosition(x, y).clear();
             }
         }
-    }
-
-    private void clearRowAtYIndex(int y) {
-        for (int x = 0; x < mWidthInTiles; x++) {
-            getTileAtPosition(x, y).clear();
-        }
+        return numberOfRowsToShiftBy;
     }
 
     @Override
