@@ -1,7 +1,8 @@
 package com.twokwy.tetris.game.grid;
 
 import com.google.common.collect.ImmutableList;
-import com.twokwy.tetris.game.grid.shapes.Square;
+import com.twokwy.tetris.game.grid.shapes.ShapeFactory;
+import com.twokwy.tetris.game.grid.shapes.TetrisShape;
 import com.twokwy.tetris.game.grid.shapes.TetrisShapeSupplier;
 import com.twokwy.tetris.game.grid.tile.PositionedTile;
 import com.twokwy.tetris.game.grid.tile.Tile;
@@ -107,7 +108,8 @@ public class TileGridImplTest {
     public void testInsertNewShapeAtTop() {
         // set up to always insert a square
         TetrisShapeSupplier mockShapeSupplier = mock(TetrisShapeSupplier.class);
-        when(mockShapeSupplier.get()).thenReturn(new Square(Tile.Color.RED));
+        TetrisShape squareShape = new TetrisShape(new ShapeFactory().createSquareShape(), Tile.Color.RED);
+        when(mockShapeSupplier.get()).thenReturn(squareShape);
         TileGridImpl tileGrid = new TileGridImpl(6, 3, mMockTiles.subList(0, 18), mockShapeSupplier);
 
         boolean result = tileGrid.insertNewShapeAtTop();

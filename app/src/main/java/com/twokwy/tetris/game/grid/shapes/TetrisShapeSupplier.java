@@ -13,9 +13,10 @@ import java.util.Random;
  */
 public class TetrisShapeSupplier implements Supplier<TetrisShape> {
 
+    private final ShapeFactory mShapeFactory;
     private final Random mRandom;
 
-    private static enum SupplyableTetrisShape {
+    private enum SupplyableTetrisShape {
         SQUARE,
         T_SHAPE,
         LONG,
@@ -25,6 +26,7 @@ public class TetrisShapeSupplier implements Supplier<TetrisShape> {
     }
 
     public TetrisShapeSupplier() {
+        mShapeFactory = new ShapeFactory();
         mRandom = new Random(0);
     }
 
@@ -35,23 +37,23 @@ public class TetrisShapeSupplier implements Supplier<TetrisShape> {
                 mRandom.nextInt(Tile.Color.values().length)];
         SupplyableTetrisShape shape = SupplyableTetrisShape.values()[
                 mRandom.nextInt(SupplyableTetrisShape.values().length)];
-        return toTetrisShape(shape, color);
+        return new TetrisShape(translateShape(shape), color);
     }
 
-    private static TetrisShape toTetrisShape(SupplyableTetrisShape shape, Tile.Color color) {
+    private Shape translateShape(SupplyableTetrisShape shape) {
         switch (shape) {
             case SQUARE:
-                return new Square(color);
+                return mShapeFactory.createSquareShape();
             case T_SHAPE:
-                return new TShape(color);
+                return mShapeFactory.createTShape();
             case LONG:
-                return new LongShape(color);
+                return mShapeFactory.createLongShape();
             case L_SHAPE:
-                return new LShape(color);
+                return mShapeFactory.createLShape();
             case S_SHAPE:
-                return new SShape(color);
+                return mShapeFactory.createSShape();
             case Z_SHAPE:
-                return new ZShape(color);
+                return mShapeFactory.createZShape();
         }
         return null; // shouldn't occur
     }
