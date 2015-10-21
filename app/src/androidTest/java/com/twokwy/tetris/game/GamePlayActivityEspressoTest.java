@@ -5,8 +5,6 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import com.twokwy.tetris.scores.HighScoresActivity;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +14,6 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -75,6 +71,7 @@ public class GamePlayActivityEspressoTest {
 
     @Test
     public void showsEndGameDialogWhenUserMashesDrop() {
+        onView(withText("start")).perform(click());
         onView(withText("drop")).perform(click());
         for (int i = 0; i < 20; i++) {
             try {
@@ -88,8 +85,9 @@ public class GamePlayActivityEspressoTest {
         onView(withText("GAME OVER")).check(matches(isDisplayed()));
         onView(withText("SCORE: ")).check(matches(isDisplayed()));
 
-        onView(withText("OK")).perform(click());
-
-        intended(hasComponent(HighScoresActivity.class.getName()));
+        // TODO reenable when high scores implemented
+//        onView(withText("OK")).perform(click());
+//
+//        intended(hasComponent(HighScoresActivity.class.getName()));
     }
 }
