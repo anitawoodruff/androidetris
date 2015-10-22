@@ -12,13 +12,34 @@ import com.twokwy.tetris.game.dialogs.PauseGameDialogFragment;
 /**
  * Created by anita on 16/09/2015.
  */
-public class GamePlayActivity extends Activity implements GameOverListener, PauseGameDialogFragment.OnUserEndedGameListener {
+public class GamePlayActivity extends Activity implements GameOverListener,
+        PauseGameDialogFragment.OnUserEndedGameListener,
+        PauseGameDialogFragment.OnUserContinuedGameListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
         getActionBar().hide();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onPauseGame();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onResumeGame();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -31,6 +52,8 @@ public class GamePlayActivity extends Activity implements GameOverListener, Paus
     }
 
     private void showPauseDialog() {
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onPauseGame();
         DialogFragment pauseGameDialogFragment = new PauseGameDialogFragment();
         pauseGameDialogFragment.show(getFragmentManager(), "pause-game-popup");
     }
@@ -82,5 +105,11 @@ public class GamePlayActivity extends Activity implements GameOverListener, Paus
     public void onClickDropButton(View view) {
         GameView gameView = (GameView) findViewById(R.id.game_view);
         gameView.onDropControl();
+    }
+
+    @Override
+    public void onUserContinuedGame() {
+        GameView gameView = (GameView) findViewById(R.id.game_view);
+        gameView.onResumeGame();
     }
 }

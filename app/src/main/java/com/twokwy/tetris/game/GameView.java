@@ -29,13 +29,26 @@ public class GameView extends View {
     private RefreshHandler mRefreshCurrentPieceHandler = new RefreshHandler();
     private int mCurrentTick = 500;
     private int mCurrentScore = 0;
+    private boolean mPaused = false;
+
+    public void onPauseGame() {
+        mPaused = true;
+        mRefreshCurrentPieceHandler.removeMessages(0);
+    }
+
+    public void onResumeGame() {
+        mPaused = false;
+        mRefreshCurrentPieceHandler.sleep(mCurrentTick);
+    }
 
     class RefreshHandler extends Handler {
 
         @Override
         public void handleMessage(Message msg) {
-            GameView.this.updateCurrentPieceAndScheduleNextUpdate();
-            GameView.this.invalidate();
+            if (!mPaused) {
+                GameView.this.updateCurrentPieceAndScheduleNextUpdate();
+                GameView.this.invalidate();
+            }
         }
 
         public void sleep(long delayMillis) {

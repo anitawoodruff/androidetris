@@ -15,18 +15,25 @@ import com.twokwy.tetris.R;
  */
 public class PauseGameDialogFragment extends DialogFragment {
 
-    private OnUserEndedGameListener mListener;
+    private OnUserContinuedGameListener mContinueListener;
+    private OnUserEndedGameListener mEndGameListener;
 
     // Container Activity must implement this interface
     public interface OnUserEndedGameListener {
-        public void onUserEndedGame();
+        void onUserEndedGame();
+    }
+
+    // Container Activity must implement this interface
+    public interface OnUserContinuedGameListener {
+        void onUserContinuedGame();
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnUserEndedGameListener) activity;
+            mContinueListener = (OnUserContinuedGameListener) activity;
+            mEndGameListener = (OnUserEndedGameListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(
                     activity.toString() + " must implement OnUserEndedGameListener");
@@ -36,7 +43,7 @@ public class PauseGameDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        final View view = createPauseDialogView(getActivity(), this, mListener);
+        final View view = createPauseDialogView(getActivity(), this, mEndGameListener, mContinueListener);
         builder.setView(view);
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
@@ -45,7 +52,8 @@ public class PauseGameDialogFragment extends DialogFragment {
 
     private static View createPauseDialogView(final Activity activity,
                                               final DialogFragment parent,
-                                              final OnUserEndedGameListener listener) {
+                                              final OnUserEndedGameListener gameOverListener,
+                                              final OnUserContinuedGameListener continueListener) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_game_pause, null);
         view.findViewById(R.id.pauseDialogContinueButton)
@@ -53,6 +61,7 @@ public class PauseGameDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 parent.dismiss();
+                continueListener.onUserContinuedGame();
             }
         });
         view.findViewById(R.id.pauseDialogEndGameButton)
@@ -60,7 +69,7 @@ public class PauseGameDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 parent.dismiss();
-                listener.onUserEndedGame();
+                gameOverListener.onUserEndedGame();
             }
         });
         return view;
