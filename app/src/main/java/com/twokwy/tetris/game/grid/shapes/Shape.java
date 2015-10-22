@@ -19,7 +19,8 @@ class Shape {
     }
 
     ImmutableSet<Coordinate> getCoordinatesForRotation(final int rotation) {
-        return mAllOrientations.get(rotation);
+        final int n = mAllOrientations.size();
+        return mAllOrientations.get((rotation + n) % n);
     }
 
     void updateOrientation(final int offset) {
