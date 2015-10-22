@@ -10,7 +10,7 @@ import com.twokwy.tetris.game.grid.Coordinate;
 public class Shape {
 
     private final ImmutableList<ImmutableSet<Coordinate>> mAllOrientations;
-    protected int mCurrentOrientationIndex;
+    private int mCurrentOrientationIndex;
 
     protected Shape(final ImmutableList<ImmutableSet<Coordinate>> allOrientations,
                     final int currentOrientationIndex) {
@@ -18,14 +18,13 @@ public class Shape {
         mCurrentOrientationIndex = currentOrientationIndex;
     }
 
-    protected ImmutableSet<Coordinate> getCoordinatesForRotation(int rotation) {
-        final int n = mAllOrientations.size();
-        int index = (((mCurrentOrientationIndex + rotation) % n) + n) % n;
-        return mAllOrientations.get(index);
+    protected ImmutableSet<Coordinate> getCoordinatesForRotation(final int rotation) {
+        return mAllOrientations.get(rotation);
     }
 
-    protected void updateOrientation(int offset) {
-        mCurrentOrientationIndex += offset;
+    protected void updateOrientation(final int offset) {
+        final int n = mAllOrientations.size();
+        mCurrentOrientationIndex = (mCurrentOrientationIndex + offset) % n;
     }
 
     protected ImmutableSet<Coordinate> getCurrentLocalCoordinates() {

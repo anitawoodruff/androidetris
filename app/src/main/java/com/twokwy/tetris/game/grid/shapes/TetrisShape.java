@@ -58,9 +58,9 @@ public class TetrisShape {
         return rotateByNRotations(grid, x, y, 1);
     }
 
-    private boolean rotateByNRotations(TileGrid grid, int x, int y, int nRotations) {
+    private boolean rotateByNRotations(final TileGrid grid, final int x, final int y, final int nRotations) {
         removeFromGridAtLocation(grid, x, y);
-        ImmutableSet<Coordinate> newCoords = mShape.getCoordinatesForRotation(nRotations);
+        final ImmutableSet<Coordinate> newCoords = mShape.getCoordinatesForRotation(nRotations);
         if (!checkSpaceAvailable(grid, x, y, newCoords)) {
             addToGridAtLocation(grid, x, y); // put it back
             return false;
