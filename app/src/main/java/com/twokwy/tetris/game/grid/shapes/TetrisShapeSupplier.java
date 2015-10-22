@@ -13,48 +13,19 @@ import java.util.Random;
  */
 public class TetrisShapeSupplier implements Supplier<TetrisShape> {
 
-    private final ShapeFactory mShapeFactory;
-    private final Random mRandom;
-
-    private enum SupplyableTetrisShape {
-        SQUARE,
-        T_SHAPE,
-        LONG,
-        S_SHAPE,
-        L_SHAPE,
-        Z_SHAPE
-    }
+    private final Supplier<Shape> mShapeSupplier;
+    private final Supplier<Tile.Color> mColorSupplier;
 
     public TetrisShapeSupplier() {
-        mShapeFactory = new ShapeFactory();
-        mRandom = new Random(0);
+        ShapeFactory shapeFactory = new ShapeFactory(new Random());
+        mShapeSupplier = new RandomShapeSupplier(new Random(), shapeFactory);
+        mColorSupplier = new Tile.RandomColorSupplier(new Random());
     }
 
     @Override
     public TetrisShape get() {
-        // TODO Move tile color logic to separate supplier in tile package
-        Tile.Color color = Tile.Color.values()[
-                mRandom.nextInt(Tile.Color.values().length)];
-        SupplyableTetrisShape shape = SupplyableTetrisShape.values()[
-                mRandom.nextInt(SupplyableTetrisShape.values().length)];
-        return new TetrisShape(translateShape(shape), color);
-    }
-
-    private Shape translateShape(SupplyableTetrisShape shape) {
-        switch (shape) {
-            case SQUARE:
-                return mShapeFactory.createSquareShape();
-            case T_SHAPE:
-                return mShapeFactory.createTShape();
-            case LONG:
-                return mShapeFactory.createLongShape();
-            case L_SHAPE:
-                return mShapeFactory.createLShape();
-            case S_SHAPE:
-                return mShapeFactory.createSShape();
-            case Z_SHAPE:
-                return mShapeFactory.createZShape();
-        }
-        return null; // shouldn't occur
+        final Tile.Color color = mColorSupplier.get();
+        final Shape shape = mShapeSupplier.get();
+        return new TetrisShape(shape, color);
     }
 }

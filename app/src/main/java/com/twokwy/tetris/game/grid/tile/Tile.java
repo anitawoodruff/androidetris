@@ -1,6 +1,9 @@
 package com.twokwy.tetris.game.grid.tile;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Supplier;
+
+import java.util.Random;
 
 /**
  * Created by anita on 18/09/2015.
@@ -9,6 +12,18 @@ public class Tile {
 
     public enum Color {
         RED, GREEN, BLUE, YELLOW, CYAN, MAGENTA
+    }
+
+    public static class RandomColorSupplier implements Supplier<Color> {
+        private final Random mRandom;
+
+        public RandomColorSupplier(Random random) {
+            mRandom = random;
+        }
+
+        public Color get() {
+            return Tile.Color.values()[mRandom.nextInt(Tile.Color.values().length)];
+        }
     }
 
     private Optional<Color> mColor;

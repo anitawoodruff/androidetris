@@ -10,15 +10,19 @@ import java.util.Random;
 /**
  * Created by anita on 26/09/2015.
  */
-public class ShapeFactory {
+class ShapeFactory {
 
     private final Random mRandom;
 
-    public ShapeFactory() {
-        mRandom = new Random(1337);
+    /**
+     * Construct a ShapeFactory that can be used to generate shapes with random orientations.
+     * @param random used to generate random orientations.
+     */
+    ShapeFactory(Random random) {
+        mRandom = random;
     }
 
-    public Shape createLongShape() {
+    Shape createLongShape() {
         return createShapeWithRandomOrientation(ImmutableList.of(
                 ImmutableSet.of(
                         new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(2, 0), new Coordinate(3, 0)),
@@ -29,7 +33,7 @@ public class ShapeFactory {
                         new Coordinate(1, 3))));
     }
 
-    public Shape createJShape() {
+    Shape createJShape() {
         return createShapeWithRandomOrientation(
                 ImmutableList.of(ImmutableSet.of(
                                       new Coordinate(1, 0),
@@ -50,7 +54,7 @@ public class ShapeFactory {
                                                                     new Coordinate(2, 1))));
     }
 
-    public Shape createLShape() {
+    Shape createLShape() {
         return createShapeWithRandomOrientation(ImmutableList.of(
                 ImmutableSet.of(
                         new Coordinate(0, 0),
@@ -69,13 +73,13 @@ public class ShapeFactory {
                         new Coordinate(0, 1), new Coordinate(1, 1), new Coordinate(2, 1))));
     }
 
-    public Shape createSquareShape() {
+    Shape createSquareShape() {
         return new Shape(ImmutableList.of(ImmutableSet.of(
                 new Coordinate(0, 0), new Coordinate(1, 0),
                 new Coordinate(1, 0), new Coordinate(1, 1))), 0);
     }
 
-    public Shape createSShape() {
+    Shape createSShape() {
         return createShapeWithRandomOrientation(ImmutableList.of(ImmutableSet.of(
                         new Coordinate(1, 0), new Coordinate(2, 0),
                         new Coordinate(0, 1), new Coordinate(1, 1)),
@@ -85,7 +89,8 @@ public class ShapeFactory {
                         new Coordinate(0, 1), new Coordinate(1, 1),
                         new Coordinate(1, 2))));
     }
-    public Shape createTShape() {
+
+    Shape createTShape() {
         return createShapeWithRandomOrientation(ImmutableList.of(ImmutableSet.of(
                         new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(2, 0),
                         new Coordinate(1, 1)),
@@ -104,7 +109,7 @@ public class ShapeFactory {
                         new Coordinate(1, 2))));
     }
 
-    public Shape createZShape() {
+    Shape createZShape() {
         return createShapeWithRandomOrientation(
                 ImmutableList.of(ImmutableSet.of(
                                 new Coordinate(0, 0), new Coordinate(1, 0),
