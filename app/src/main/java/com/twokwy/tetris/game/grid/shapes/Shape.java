@@ -13,7 +13,7 @@ class Shape {
     private int mCurrentOrientationIndex;
 
     Shape(final ImmutableList<ImmutableSet<Coordinate>> allOrientations,
-                    final int currentOrientationIndex) {
+          final int currentOrientationIndex) {
         mAllOrientations = allOrientations;
         mCurrentOrientationIndex = currentOrientationIndex;
     }
@@ -24,7 +24,7 @@ class Shape {
 
     void updateOrientation(final int offset) {
         final int n = mAllOrientations.size();
-        mCurrentOrientationIndex = (mCurrentOrientationIndex + offset) % n;
+        mCurrentOrientationIndex = ((mCurrentOrientationIndex + offset) + n) % n;
     }
 
     ImmutableSet<Coordinate> getCurrentLocalCoordinates() {
