@@ -7,12 +7,12 @@ import com.twokwy.tetris.game.grid.shapes.TetrisShape;
  */
 public class CurrentPieceImpl implements CurrentPiece {
 
-    private final TetrisShape mShape;
+    private final TetrisShape mTetrisShape;
     private int mXLocation;
     private int mYLocation;
 
     public CurrentPieceImpl(TetrisShape shape, int x, int y) {
-        mShape = shape;
+        mTetrisShape = shape;
         mXLocation = x;
         mYLocation = y;
     }
@@ -40,23 +40,23 @@ public class CurrentPieceImpl implements CurrentPiece {
 
     @Override
     public void rotateLeft(TileGrid grid) {
-        mShape.rotateLeft(grid, mXLocation, mYLocation);
+        mTetrisShape.rotateLeft(grid, mXLocation, mYLocation);
     }
 
     @Override
     public void rotateRight(TileGrid grid) {
-        mShape.rotateRight(grid, mXLocation, mYLocation);
+        mTetrisShape.rotateRight(grid, mXLocation, mYLocation);
     }
 
     private boolean move(TileGrid tileGrid, int xIncrement, int yIncrement) {
-        mShape.removeFromGridAtLocation(tileGrid, mXLocation, mYLocation);
-        if (mShape.addToGridAtLocation(tileGrid, mXLocation + xIncrement, mYLocation + yIncrement)) {
+        mTetrisShape.removeFromGridAtLocation(tileGrid, mXLocation, mYLocation);
+        if (mTetrisShape.addToGridAtLocation(tileGrid, mXLocation + xIncrement, mYLocation + yIncrement)) {
             mXLocation += xIncrement;
             mYLocation += yIncrement;
             return true;
         } else {
             // put it back where it was
-            mShape.addToGridAtLocation(tileGrid, mXLocation, mYLocation);
+            mTetrisShape.addToGridAtLocation(tileGrid, mXLocation, mYLocation);
             return false;
         }
     }
