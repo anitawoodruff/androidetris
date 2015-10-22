@@ -76,7 +76,7 @@ class ShapeFactory {
     Shape createSquareShape() {
         return new Shape(ImmutableList.of(ImmutableSet.of(
                 new Coordinate(0, 0), new Coordinate(1, 0),
-                new Coordinate(1, 0), new Coordinate(1, 1))), 0);
+                new Coordinate(0, 1), new Coordinate(1, 1))), 0);
     }
 
     Shape createSShape() {
