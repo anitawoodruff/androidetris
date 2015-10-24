@@ -2,7 +2,7 @@ package com.twokwy.tetris.game.grid;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
-import com.twokwy.tetris.game.grid.shapes.TetrisShape;
+import com.twokwy.tetris.game.grid.shapes.TetrisPiece;
 import com.twokwy.tetris.game.grid.shapes.TetrisShapeSupplier;
 import com.twokwy.tetris.game.grid.tile.PositionedTile;
 import com.twokwy.tetris.game.grid.tile.Tile;
@@ -97,7 +97,7 @@ public class TileGridImpl implements TileGrid {
     public boolean insertNewShapeAtTop() {
         final int x = mWidthInTiles / 2 - 1;
         final int y = 0;
-        final TetrisShape shape = mNewPieceSuppier.get();
+        final TetrisPiece shape = mNewPieceSuppier.get();
         if (shape.addToGridAtLocation(this, x, y)) {
             mCurrentPiece = new CurrentPieceImpl(shape, x, y);
             return true;

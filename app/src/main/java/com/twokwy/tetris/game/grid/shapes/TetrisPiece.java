@@ -8,12 +8,12 @@ import com.twokwy.tetris.game.grid.tile.Tile;
 /**
  * Created by anita on 18/09/2015.
  */
-public class TetrisShape {
+public class TetrisPiece {
 
     private final Shape mShape;
     private final Tile.Color mColor;
 
-    public TetrisShape(Shape shape, Tile.Color color) {
+    public TetrisPiece(Shape shape, Tile.Color color) {
         mShape = shape;
         mColor = color;
     }

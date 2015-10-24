@@ -11,7 +11,7 @@ import java.util.Random;
  *
  * Created by anita on 20/09/2015.
  */
-public class TetrisShapeSupplier implements Supplier<TetrisShape> {
+public class TetrisShapeSupplier implements Supplier<TetrisPiece> {
 
     private final Supplier<Shape> mShapeSupplier;
     private final Supplier<Tile.Color> mColorSupplier;
@@ -23,9 +23,9 @@ public class TetrisShapeSupplier implements Supplier<TetrisShape> {
     }
 
     @Override
-    public TetrisShape get() {
+    public TetrisPiece get() {
         final Tile.Color color = mColorSupplier.get();
         final Shape shape = mShapeSupplier.get();
-        return new TetrisShape(shape, color);
+        return new TetrisPiece(shape, color);
     }
 }
