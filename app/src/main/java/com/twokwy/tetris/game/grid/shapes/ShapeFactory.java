@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by anita on 26/09/2015.
  */
-class ShapeFactory {
+public class ShapeFactory {
 
     private final Random mRandom;
 
@@ -18,7 +18,7 @@ class ShapeFactory {
      * Construct a ShapeFactory that can be used to generate shapes with random orientations.
      * @param random used to generate random orientations.
      */
-    ShapeFactory(Random random) {
+    public ShapeFactory(Random random) {
         mRandom = random;
     }
 
@@ -73,7 +73,7 @@ class ShapeFactory {
                         new Coordinate(0, 1), new Coordinate(1, 1), new Coordinate(2, 1))));
     }
 
-    Shape createSquareShape() {
+    public Shape createSquareShape() {
         return new Shape(ImmutableList.of(ImmutableSet.of(
                 new Coordinate(0, 0), new Coordinate(1, 0),
                 new Coordinate(0, 1), new Coordinate(1, 1))), 0);

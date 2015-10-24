@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
@@ -108,7 +109,7 @@ public class TileGridImplTest {
     public void testInsertNewShapeAtTop() {
         // set up to always insert a square
         TetrisShapeSupplier mockShapeSupplier = mock(TetrisShapeSupplier.class);
-        TetrisShape squareShape = new TetrisShape(new ShapeFactory().createSquareShape(), Tile.Color.RED);
+        TetrisShape squareShape = new TetrisShape(new ShapeFactory(new Random()).createSquareShape(), Tile.Color.RED);
         when(mockShapeSupplier.get()).thenReturn(squareShape);
         TileGridImpl tileGrid = new TileGridImpl(6, 3, mMockTiles.subList(0, 18), mockShapeSupplier);
 

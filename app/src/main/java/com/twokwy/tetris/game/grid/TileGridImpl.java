@@ -143,7 +143,6 @@ public class TileGridImpl implements TileGrid {
     @Override
     public void rotateCurrentPieceRight() {
         mCurrentPiece.rotateRight(this);
-
     }
 
     private int getNumberOfRowsToRemoveAtBottom() {
