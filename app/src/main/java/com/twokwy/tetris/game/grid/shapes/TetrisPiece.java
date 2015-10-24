@@ -60,15 +60,14 @@ public class TetrisPiece {
 
     private boolean rotateByNRotations(final TileGrid grid, final int x, final int y, final int nRotations) {
         removeFromGridAtLocation(grid, x, y);
-        final ImmutableSet<Coordinate> newCoords = mShape.getCoordinatesForRotation(nRotations);
+        final ImmutableSet<Coordinate> newCoords = mShape.getCoordinatesForNRotations(nRotations);
         if (!checkSpaceAvailable(grid, x, y, newCoords)) {
             addToGridAtLocation(grid, x, y); // put it back
             return false;
         } else {
-            mShape.updateOrientation(nRotations);
+            mShape.offsetCurrentOrientation(nRotations);
             addToGridAtLocation(grid, x, y);
             return true;
         }
-
     }
 }
