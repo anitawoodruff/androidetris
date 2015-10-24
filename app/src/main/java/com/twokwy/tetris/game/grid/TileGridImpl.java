@@ -177,6 +177,10 @@ public class TileGridImpl implements TileGrid {
                 numberOfRowsToShiftBy++;
                 continue; // try the row above
             }
+            if (numberOfRowsToShiftBy == 0) {
+                // nothing to do here, but there may be full rows above
+                continue;
+            }
             // now we copy
             for (int x = 0; x < mWidthInTiles; x++) {
                 // TODO This isn't great
