@@ -21,41 +21,19 @@ import com.twokwy.tetris.game.grid.TileGridFactory;
 import com.twokwy.tetris.game.grid.tile.PositionedTile;
 import com.twokwy.tetris.game.grid.tile.Tile;
 
+import java.lang.ref.WeakReference;
+
 public class GameView extends View {
+
+    private static final int UPDATE_TASK = 0;
 
     private TileGrid mTileGrid;
     private GameOverListener mGameOverListener;
 
-    private RefreshHandler mRefreshCurrentPieceHandler = new RefreshHandler();
+    private RefreshHandler mRefreshCurrentPieceHandler = new RefreshHandler(this);
     private int mCurrentTick = 500;
     private int mCurrentScore = 0;
     private boolean mPaused = false;
-
-    public void onPauseGame() {
-        mPaused = true;
-        mRefreshCurrentPieceHandler.removeMessages(0);
-    }
-
-    public void onResumeGame() {
-        mPaused = false;
-        mRefreshCurrentPieceHandler.sleep(mCurrentTick);
-    }
-
-    class RefreshHandler extends Handler {
-
-        @Override
-        public void handleMessage(Message msg) {
-            if (!mPaused) {
-                GameView.this.updateCurrentPieceAndScheduleNextUpdate();
-                GameView.this.invalidate();
-            }
-        }
-
-        public void sleep(long delayMillis) {
-            this.removeMessages(0);
-            sendMessageDelayed(obtainMessage(0), delayMillis);
-        }
-    }
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -65,19 +43,9 @@ public class GameView extends View {
         super(context, attrs, defStyle);
     }
 
-    private void init() {
-        // initialise the real tile grid later in onSizeChanged when dimensions are known
-        mTileGrid = TileGridFactory.createEmptyTileGrid();
-        mGameOverListener = new GameOverListener() {
-            @Override
-            public void gameOver(int score) {
-                // empty implementation - real will be set in onAttachedToWindow
-            }
-        };
-    }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
         mTileGrid = TileGridFactory.createToFillWidthAndHeight(w, h);
     }
 
@@ -115,7 +83,7 @@ public class GameView extends View {
     }
 
     private static int translateToResId(Tile.Color tileColor) {
-        switch(tileColor) {
+        switch (tileColor) {
             case RED:
                 return R.color.red;
             case BLUE:
@@ -141,12 +109,12 @@ public class GameView extends View {
                 mCurrentScore += rowsRemoved * 5;
                 Activity parentActivity = (Activity) getContext();
                 final TextView scoreTextView = (TextView) parentActivity.findViewById(R.id.currentScore);
-                scoreTextView.setText("" + mCurrentScore);
+                scoreTextView.setText(String.format("%d", mCurrentScore));
             }
             final boolean inserted = mTileGrid.insertNewShapeAtTop();
             if (!inserted) {
                 // could not insert, so we must have reached the top
-                mGameOverListener.gameOver(mCurrentScore); // TODO pass score
+                mGameOverListener.gameOver(mCurrentScore);
                 return;
             }
         }
@@ -158,13 +126,19 @@ public class GameView extends View {
         updateCurrentPieceAndScheduleNextUpdate();
     }
 
+    public void onPauseGame() {
+        mPaused = true;
+        mRefreshCurrentPieceHandler.removeMessages(UPDATE_TASK);
+    }
+
+    public void onResumeGame() {
+        mPaused = false;
+        mRefreshCurrentPieceHandler.sleep(mCurrentTick);
+    }
+
     public void onDropControl() {
         mTileGrid.dropCurrentPiece();
         invalidate();
-    }
-
-    public void onDownControl() {
-
     }
 
     public void onMoveLeftControl() {
@@ -185,5 +159,28 @@ public class GameView extends View {
     public void onRotateRightControl() {
         mTileGrid.rotateCurrentPieceRight();
         invalidate();
+    }
+
+    static class RefreshHandler extends Handler {
+
+        private WeakReference<GameView> mGameView;
+
+        RefreshHandler(GameView gameView) {
+            mGameView = new WeakReference<>(gameView);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            GameView gameView = mGameView.get();
+            if (!gameView.mPaused) {
+                gameView.updateCurrentPieceAndScheduleNextUpdate();
+                gameView.invalidate();
+            }
+        }
+
+        public void sleep(long delayMillis) {
+            this.removeMessages(UPDATE_TASK);
+            sendMessageDelayed(obtainMessage(UPDATE_TASK), delayMillis);
+        }
     }
 }
