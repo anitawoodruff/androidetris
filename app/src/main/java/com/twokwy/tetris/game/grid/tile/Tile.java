@@ -14,15 +14,21 @@ public class Tile {
         RED, GREEN, BLUE, YELLOW, CYAN, MAGENTA
     }
 
-    public static class RandomColorSupplier implements Supplier<Color> {
-        private final Random mRandom;
+    public static class SequentialColorSupplier implements Supplier<Color> {
+        private int mNextColorIndex;
 
-        public RandomColorSupplier(Random random) {
-            mRandom = random;
+        /**
+         * Creates a new supplier that will keep cycling through which Tile.Color it returns,
+         * starting with a random one.
+         */
+        public SequentialColorSupplier() {
+            mNextColorIndex = new Random().nextInt(Tile.Color.values().length);
         }
 
         public Color get() {
-            return Tile.Color.values()[mRandom.nextInt(Tile.Color.values().length)];
+            final Tile.Color color = Tile.Color.values()[mNextColorIndex];
+            mNextColorIndex = (mNextColorIndex + 1) % Color.values().length;
+            return color;
         }
     }
 

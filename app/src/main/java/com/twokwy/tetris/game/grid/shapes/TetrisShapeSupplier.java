@@ -19,7 +19,7 @@ public class TetrisShapeSupplier implements Supplier<TetrisPiece> {
     public TetrisShapeSupplier() {
         ShapeFactory shapeFactory = new ShapeFactory(new Random());
         mShapeSupplier = new RandomShapeSupplier(new Random(), shapeFactory);
-        mColorSupplier = new Tile.RandomColorSupplier(new Random());
+        mColorSupplier = new Tile.SequentialColorSupplier();
     }
 
     @Override
