@@ -12,7 +12,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/game_view">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,17 +35,12 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:gravity="left">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="||"
                 android:onClick="onClickPauseButton"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="start"
-                android:onClick="onClickStartButton"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
@@ -57,22 +53,21 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="rotate\nleft"
-                    android:onClick="onClickRotateLeftButton"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="left"
                     android:onClick="onClickLeftButton"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="right"
-                    android:onClick="onClickRightButton"/>
+                    android:onClick="onClickRightButton"/></LinearLayout>
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+                android:layout_gravity="right">
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="rotate\nright"
+                    android:text="rotate"
                     android:onClick="onClickRotateRightButton"/>
             </LinearLayout>
             <Button
