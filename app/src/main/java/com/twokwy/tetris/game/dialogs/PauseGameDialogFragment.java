@@ -7,6 +7,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.twokwy.tetris.R;
 
@@ -20,7 +21,7 @@ public class PauseGameDialogFragment extends DialogFragment {
 
     // Container Activity must implement this interface
     public interface OnUserEndedGameListener {
-        void onUserEndedGame();
+        void onUserEndedGame(final int score);
     }
 
     // Container Activity must implement this interface
@@ -69,7 +70,8 @@ public class PauseGameDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 parent.dismiss();
-                gameOverListener.onUserEndedGame();
+                final TextView scoreView = (TextView) activity.findViewById(R.id.currentScore);
+                gameOverListener.onUserEndedGame(Integer.parseInt(scoreView.getText().toString()));
             }
         });
         return view;

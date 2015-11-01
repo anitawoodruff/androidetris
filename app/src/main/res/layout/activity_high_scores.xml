@@ -3,5 +3,37 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:padding="@dimen/high_score_padding">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/high_score_1"
+        android:text="1. "
+        android:textSize="@dimen/high_score_text_size"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/high_score_2"
+        android:text="2. "
+        android:textSize="@dimen/high_score_text_size"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/high_score_3"
+        android:text="3. "
+        android:textSize="@dimen/high_score_text_size"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/high_score_4"
+        android:text="4. "
+        android:textSize="@dimen/high_score_text_size"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/high_score_5"
+        android:text="5. "
+        android:textSize="@dimen/high_score_text_size"/>
 </LinearLayout>

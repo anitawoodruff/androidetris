@@ -14,15 +14,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/score_label_text_box"
             android:text="SCORE: " />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/gameOverScore"/>
     </LinearLayout>
-    <Button
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK"
-        android:onClick="onClickGameOverOKButton"/>
-</LinearLayout>
+        android:id="@+id/new_high_score_name"
+        android:hint="Enter your name"
+        android:visibility="gone"/>
+    </LinearLayout>
