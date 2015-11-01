@@ -119,6 +119,7 @@ public class GameView extends View {
             }
         }
         mRefreshCurrentPieceHandler.sleep(mCurrentTick);
+        mCurrentTick = Math.max(100, mCurrentTick - 1); // speed up linearly to max speed.
     }
 
     public void onStartGame() {
