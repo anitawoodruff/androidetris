@@ -28,6 +28,8 @@ import java.lang.ref.WeakReference;
 public class GameView extends View {
 
     private static final int UPDATE_TASK = 0;
+    private static final int MAX_SPEED = 300;
+    private static final int MAX_TICK_FRACTION = 2;
 
     private TileGrid mTileGrid;
     private GameOverListener mGameOverListener;
@@ -36,6 +38,7 @@ public class GameView extends View {
     private int mCurrentTick = 500;
     private int mCurrentScore = 0;
     private boolean mPaused = false;
+    private int mTickFraction = 0;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -162,7 +165,11 @@ public class GameView extends View {
             }
         }
         mRefreshCurrentPieceHandler.sleep(mCurrentTick);
-        mCurrentTick = Math.max(100, mCurrentTick - 1); // speed up linearly to max speed.
+        mTickFraction++;
+        if (mTickFraction >= MAX_TICK_FRACTION) {
+            mCurrentTick = Math.max(MAX_SPEED, mCurrentTick - 1); // speed up linearly to max speed.
+            mTickFraction = 0;
+        }
     }
 
     public void onStartGame() {
