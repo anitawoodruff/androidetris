@@ -10,6 +10,8 @@ import android.graphics.drawable.shapes.RectShape;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -61,6 +63,47 @@ public class GameView extends View {
             throw new ClassCastException(
                     this.getContext().toString() + " must implement GameOverListener");
         }
+        this.setFocusable(true);
+        setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) {
+                    return false;
+                }
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_DPAD_LEFT:
+                    case KeyEvent.KEYCODE_SOFT_LEFT:
+                    case KeyEvent.KEYCODE_A:
+                        onMoveLeftControl();
+                        return true;
+                    case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    case KeyEvent.KEYCODE_D:
+                        onMoveRightControl();
+                        return true;
+                    case KeyEvent.KEYCODE_DPAD_DOWN:
+                    case KeyEvent.KEYCODE_SPACE:
+                    case KeyEvent.KEYCODE_S:
+                        onDropControl();
+                        return true;
+                    case KeyEvent.KEYCODE_R:
+                    case KeyEvent.KEYCODE_DPAD_UP:
+                    case KeyEvent.KEYCODE_W:
+                    case KeyEvent.KEYCODE_J:
+                        onRotateRightControl();
+                        return true;
+                    case KeyEvent.KEYCODE_P:
+                        if (mPaused) {
+                            onResumeGame();
+                        } else {
+                            onPauseGame();
+                        }
+                        return true;
+                    default:
+                        Log.d("UnknownKeycode", "" + keyCode);
+                        return false;
+                }
+            }
+        });
     }
 
     @Override
