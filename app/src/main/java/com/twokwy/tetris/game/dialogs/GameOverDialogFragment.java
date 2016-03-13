@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
 import com.twokwy.tetris.R;
 import com.twokwy.tetris.game.GamePlayActivity;
 import com.twokwy.tetris.scores.HighScoresActivity;
@@ -29,6 +30,7 @@ public class GameOverDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final Firebase firebase = new Firebase("https://vivid-torch-5929.firebaseio.com/");
         final Bundle args = getArguments();
         final int score = args.getInt(GAME_OVER_SCORE_KEY);
         final boolean wasHighScore = args.getBoolean(WAS_HIGH_SCORE_KEY);
@@ -45,6 +47,8 @@ public class GameOverDialogFragment extends DialogFragment {
                     final int position = args.getInt(HIGH_SCORE_POSITION_KEY, -1);
                     final SharedPreferences prefs = getActivity().getSharedPreferences("scores", 0);
                     prefs.edit().putString(HighScoresActivity.NAME_KEYS.get(position), name).commit();
+
+                    firebase.child(name).setValue(score);
                     activity.moveToHighScores();
                 } else {
                     activity.backToMainMenu();
