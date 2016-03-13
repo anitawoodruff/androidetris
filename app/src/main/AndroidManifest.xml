@@ -29,6 +29,9 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".TopMenuActivity" /></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f869cc150891b85ddb45773dd3c1061cce329c76" />
     </application>
 
 </manifest>
