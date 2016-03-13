@@ -15,6 +15,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -36,6 +37,7 @@ public class ActivityNavigationEspressoTest {
         onView(withText("Play")).perform(click());
         onView(withText("||")).perform(click());
         onView(withText("End Game")).perform(click());
+        onView(withText(equalToIgnoringCase("ok"))).perform(click());
 
         onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
     }

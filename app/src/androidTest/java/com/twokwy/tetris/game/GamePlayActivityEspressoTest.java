@@ -71,7 +71,6 @@ public class GamePlayActivityEspressoTest {
 
     @Test
     public void showsEndGameDialogWhenUserMashesDrop() {
-        onView(withText("start")).perform(click());
         onView(withText("drop")).perform(click());
         for (int i = 0; i < 20; i++) {
             try {
