@@ -21,6 +21,9 @@ android {
     }
     packagingOptions {
         exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
     }
 }
 
@@ -29,7 +32,8 @@ dependencies {
 
     // App's dependencies, including test
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile group: 'com.google.guava', name: 'guava', version: '15.0'
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+    compile 'com.firebase:firebase-client-android:2.5.1'
 
     // Testing-only dependencies
     testCompile 'junit:junit:4.12'
