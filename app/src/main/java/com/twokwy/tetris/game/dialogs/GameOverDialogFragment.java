@@ -44,7 +44,7 @@ public class GameOverDialogFragment extends DialogFragment {
                     String name = editText.getText().toString().trim();
                     final int position = args.getInt(HIGH_SCORE_POSITION_KEY, -1);
                     final SharedPreferences prefs = getActivity().getSharedPreferences("scores", 0);
-                    prefs.edit().putString(HighScoresActivity.NAME_KEYS.get(position), name).commit();
+                    prefs.edit().putString(HighScoresActivity.NAME_PREF_KEYS.get(position), name).apply();
                     activity.moveToHighScores();
                 } else {
                     activity.backToMainMenu();

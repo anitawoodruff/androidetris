@@ -13,6 +13,8 @@ import com.twokwy.tetris.game.dialogs.GameOverDialogFragment;
 import com.twokwy.tetris.game.dialogs.PauseGameDialogFragment;
 import com.twokwy.tetris.scores.HighScoresActivity;
 
+import static com.twokwy.tetris.scores.HighScoresActivity.HIGH_SCORE_SHARED_PREFS;
+
 /**
  * Created by anita on 16/09/2015.
  */
@@ -89,23 +91,24 @@ public class GamePlayActivity extends Activity implements GameOverListener,
      * @return position of new high score, or -1 if no high score achieved.
      */
     private int saveScore(int newScore) {
-        final SharedPreferences prefs = getSharedPreferences("scores", 0);
-        final ImmutableList<String> scoreKeys = HighScoresActivity.SCORE_KEYS;
+        final SharedPreferences prefs = getSharedPreferences(HIGH_SCORE_SHARED_PREFS, 0);
+        final ImmutableList<String> scoreKeys = HighScoresActivity.SCORE_PREF_KEYS;
         boolean achievedHighScore = false;
         int position = -1;
         for (int i = 0; i < scoreKeys.size(); i++) {
             final int score = prefs.getInt(scoreKeys.get(i), 0);
             if (score > newScore) {
+                // not beaten this score, try the next.
                 continue;
-            } else {
-                if (!achievedHighScore) {
-                    position = i;
-                    achievedHighScore = true;
-                }
-                prefs.edit().putInt(scoreKeys.get(i), newScore).commit();
-                newScore = score;
-                // continue shifting scores down
             }
+            if (!achievedHighScore) {
+                // woop, we got a high score!
+                position = i;
+                achievedHighScore = true;
+            }
+            prefs.edit().putInt(scoreKeys.get(i), newScore).apply();
+            newScore = score;
+            // continue shifting scores down
         }
         return position;
     }
