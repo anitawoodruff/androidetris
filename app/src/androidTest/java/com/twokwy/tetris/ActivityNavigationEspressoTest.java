@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -22,23 +23,23 @@ import static org.hamcrest.Matchers.equalToIgnoringCase;
 public class ActivityNavigationEspressoTest {
 
     public static final String TOP_MENU_TITLE = "Tetris";
+    private static final String HIGH_SCORES_TITLE = "Tetris High Scores";
 
     @Rule
     public IntentsTestRule<TopMenuActivity> mActivityRule = new IntentsTestRule(TopMenuActivity.class);
 
     @Test
-    @Ignore // FIXME When there is an easy way to trigger game over / check if in same game
-    public void cannotGoBackToGameAfterEnded() {
-        onView(withText("Play")).perform(click());
-    }
-
-    @Test
-    public void startsTopMenuActivityWhenEndGameButtonIsClicked() {
+    public void cantGoBackToGameAfterNewHighScore() {
         onView(withText("Play")).perform(click());
         onView(withText("||")).perform(click());
         onView(withText("End Game")).perform(click());
-        onView(withText(equalToIgnoringCase("ok"))).perform(click());
 
+        // Click through the new high score dialog:
+        onView(withText(equalToIgnoringCase("ok"))).perform(click());
+        onView(withText(HIGH_SCORES_TITLE)).check(matches(isDisplayed()));
+
+        // Check it goes 'back' to the top menu (not game).
+        pressBack();
         onView(withText(TOP_MENU_TITLE)).check(matches(isDisplayed()));
     }
 

@@ -5,6 +5,8 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import com.twokwy.tetris.R;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +17,9 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -82,7 +86,8 @@ public class GamePlayActivityEspressoTest {
 
         // Dialog should now be visible
         onView(withText("GAME OVER")).check(matches(isDisplayed()));
-        onView(withText("SCORE: ")).check(matches(isDisplayed()));
+        onView(withId(R.id.score_label_text_box)).check(matches(withText(containsString
+                ("SCORE:"))));
 
         // TODO reenable when high scores implemented
 //        onView(withText("OK")).perform(click());
