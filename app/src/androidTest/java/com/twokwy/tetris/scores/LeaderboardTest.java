@@ -16,6 +16,8 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class LeaderboardTest {
+    private static final int MAX_SIZE = 5;
+
     private Leaderboard mLeaderboard;
 
     @Before
@@ -33,12 +35,30 @@ public class LeaderboardTest {
 
     @Test
     public void maxSizeIsFive() throws Exception {
-        assertThat(mLeaderboard.maxSize(), is(5));
+        assertThat(mLeaderboard.maxSize(), is(MAX_SIZE));
     }
 
     @Test
-    public void sizeIsInitiallyZero() throws Exception {
+    public void addingScoresIncreasesSizeUpToMax_allZero() throws Exception {
         assertThat(mLeaderboard.size(), is(0));
+        for (int i = 1; i <= MAX_SIZE; i++) {
+            assertThat(mLeaderboard.addScore(0), is(true));
+            assertThat(mLeaderboard.size(), is(i));
+        }
+        assertThat(mLeaderboard.addScore(0), is(false));
+        assertThat(mLeaderboard.size(), is(MAX_SIZE));
+    }
+
+    @Test
+    public void addingScoresIncreasesSizeUpToMax_incrementingScores() throws Exception {
+        assertThat(mLeaderboard.size(), is(0));
+        for (int i = 1; i <= MAX_SIZE; i++) {
+            assertThat(mLeaderboard.addScore(i), is(true));
+            assertThat(mLeaderboard.size(), is(i));
+        }
+        boolean scoreWasInserted = mLeaderboard.addScore(MAX_SIZE + 1);
+        assertThat(scoreWasInserted, is(true));
+        assertThat(mLeaderboard.size(), is(MAX_SIZE));
     }
 
 }
