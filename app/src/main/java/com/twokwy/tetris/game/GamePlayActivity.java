@@ -22,6 +22,8 @@ public class GamePlayActivity extends Activity implements GameOverListener,
         PauseGameDialogFragment.OnUserEndedGameListener,
         PauseGameDialogFragment.OnUserContinuedGameListener {
 
+    private static final String PLACEHOLDER_NAME = "New High Scorer";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +93,10 @@ public class GamePlayActivity extends Activity implements GameOverListener,
      * @return position of new high score, or -1 if no high score achieved.
      */
     private int saveScore(int newScore) {
+        String newName = PLACEHOLDER_NAME;
         final SharedPreferences prefs = getSharedPreferences(HIGH_SCORE_SHARED_PREFS, 0);
         final ImmutableList<String> scoreKeys = HighScoresActivity.SCORE_PREF_KEYS;
+        final ImmutableList<String> nameKeys = HighScoresActivity.NAME_PREF_KEYS;
         boolean achievedHighScore = false;
         int position = -1;
         for (int i = 0; i < scoreKeys.size(); i++) {
@@ -106,8 +110,13 @@ public class GamePlayActivity extends Activity implements GameOverListener,
                 position = i;
                 achievedHighScore = true;
             }
-            prefs.edit().putInt(scoreKeys.get(i), newScore).apply();
+            String oldName = prefs.getString(nameKeys.get(i), "");
+            prefs.edit()
+                    .putInt(scoreKeys.get(i), newScore)
+                    .putString(nameKeys.get(i), newName)
+                    .apply();
             newScore = score;
+            newName = oldName;
             // continue shifting scores down
         }
         return position;
